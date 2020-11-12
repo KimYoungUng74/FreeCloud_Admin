@@ -1,4 +1,4 @@
-package com.spring.freecloud_admin;
+package com.spring.freecloud.controller;
 
 import java.text.DateFormat;
 import java.util.Date;

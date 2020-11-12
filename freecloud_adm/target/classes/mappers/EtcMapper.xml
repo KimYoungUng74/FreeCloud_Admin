@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EtcMapper">
+
+	<!--등록된 프로젝트 수 -->
+	<select id="ProjectCount" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		FREE_PROJECT
+	</select>
+
+	<!--등록된 프리랜서 수 -->
+	<select id="RegFreeCount" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		FREE_USER
+		WHERE FREELANCER_PUBLIC=1
+	</select>
+
+	<!--완료 금액 -->
+	<select id="EdPrice" resultType="int">
+		SELECT
+		SUM(PROJECT_BUDGET)
+		FROM FREE_PROJECT
+		WHERE PROJECT_STATUS=1
+	</select>
+
+	<!--회원 수 -->
+	<select id="AllUser" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		FREE_USER
+	</select>
+	
+	<!-- 지원 요청 -->
+	<insert id="RequestProject" parameterType="MyfreelancerDTO">
+		INSERT INTO free_myfreelancer(PROJECT_IDX, PROJECT_SUBJECT, CLIENT_ID, FREELANCER_ID, PROJECT_STATUS)
+		VALUES(#{PROJECT_IDX}, #{PROJECT_SUBJECT}, #{CLIENT_ID}, #{FREELANCER_ID}, 2)
+	</insert>
+	
+
+</mapper>

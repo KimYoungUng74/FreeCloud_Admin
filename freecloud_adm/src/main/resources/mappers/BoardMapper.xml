@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardMapper">
+	<!-- id는 마음대로 작성 prarameter는 실제DTO클래스 -->
+	<!-- 프리랜서 글 등록 -->
+	<insert id="freelancerWrite">
+		INSERT INTO FREE_BBS(BBS_IDX, USER_ID, BBS_MAIN_KATEGORY, BBS_MIDDLE_KATEGORY, BBS_SUBJECT, BBS_CONTENT, BBS_VIEWS, BBS_REG_DATE, BBS_UPDATE_DATE)
+		VALUES(AUTOINC.nextval, 'test', 'test', 'test', 'test', 'test', 1, sysdate, sysdate)
+	</insert>
+
+	<!-- 프로젝트 등록 -->
+	<insert id="projectWrite">
+		INSERT INTO FREE_PROJECT(PROJECT_IDX, USER_ID, PROJECT_MAIN_KATEGORY, PROJECT_MIDDLE_KATEGORY,PROJECT_WORKING_KIND, PROJECT_SUBJECT, PROJECT_CONTENT
+		, PROJECT_START_DATE, PROJECT_END_DATE, PROJECT_ADDRESS, PROJECT_BUDGET, PROJECT_BUDGET_COORDINATION, PROJECT_IMAGE_PATH, PROJECT_STATUS,PROJECT_VIEWS)
+		VALUES(
+		AUTOINC1.nextval, 
+		#{USER_ID}, 
+		#{PROJECT_MAIN_KATEGORY}, 
+		#{PROJECT_MIDDLE_KATEGORY}, 
+		#{PROJECT_WORKING_KIND}, #{PROJECT_SUBJECT}, 
+		#{PROJECT_CONTENT}, #{PROJECT_START_DATE}, 
+		#{PROJECT_END_DATE}, #{PROJECT_ADDRESS}, 
+		#{PROJECT_BUDGET}, 
+		#{PROJECT_BUDGET_COORDINATION}, 
+		#{PROJECT_IMAGE_PATH}, 
+		1, 
+		1
+		)
+	</insert>
+	<!-- 이미지 경로 가져오기  -->
+	<select id="getImage" parameterType="String" resultType="String">
+		SELECT FREELANCER_IMAGE_PATH
+		FROM FREE_USER
+		WHERE USER_ID = #{USER_ID}
+	</select>
+	
+	
+	<!-- 게시글 등록 -->
+	<insert id="boardWrite">
+		INSERT INTO FREE_BBS(BBS_IDX, USER_ID, BBS_MAIN_KATEGORY, BBS_SUBJECT, BBS_CONTENT
+		, BBS_REG_DATE, BBS_UPDATE_DATE,BBS_VIEWS)
+		VALUES(
+		BBS_INC.nextval, 
+		#{USER_ID},
+		#{BBS_MAIN_KATEGORY},  
+		#{BBS_SUBJECT}, 
+		#{BBS_CONTENT}, 
+		sysdate, 
+		sysdate, 
+		0
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="boardUpdate" parameterType="BoardDTO">
+		UPDATE FREE_BBS
+		set BBS_SUBJECT = #{BBS_SUBJECT},BBS_CONTENT = #{BBS_CONTENT},BBS_MAIN_KATEGORY = #{BBS_MAIN_KATEGORY}, BBS_UPDATE_DATE = sysdate
+		where BBS_IDX = #{BBS_IDX}
+	</update>
+	
+	<!-- 프로젝트 참여 -->
+	<insert id="projectJoin">
+		INSERT INTO FREE_MYFREELANCER(PROJECT_IDX, PROJECT_SUBJECT, CLIENT_ID, FREELANCER_ID,PROJECT_STATUS)
+		VALUES(
+		#{PROJECT_IDX},
+		#{PROJECT_SUBJECT}, 
+		#{CLIENT_ID}, 
+		#{FREELANCER_ID}, 
+		#{PROJECT_STATUS}
+		)
+	</insert>
+	
+	
+	<!-- 프로젝트 리스트 보기 -->
+	<select id="projectListAll" parameterType="ProjectDTO" resultType="ProjectDTO">
+		SELECT * 
+		FROM FREE_PROJECT
+		ORDER BY PROJECT_IDX DESC
+	</select>
+	
+	<!-- 프로젝트 상세 보기 -->
+	<select id="projectView" resultType="ProjectDTO">
+		SELECT * 
+		FROM FREE_PROJECT
+		WHERE PROJECT_IDX = ${PROJECT_IDX}
+	</select>
+	
+	<!-- 게시글 상세 보기 -->
+	<select id="boardView" resultType="BoardDTO">
+		SELECT * 
+		FROM FREE_BBS
+		WHERE BBS_IDX = ${BBS_IDX}
+	</select>
+	
+	<!-- 총 게시글 갯수 출력 ( 프로젝트 ) -->
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM FREE_PROJECT
+	</select>
+	
+	<!-- 총 게시글 갯수 출력 ( 정보 구름 ) -->
+	<select id="countBoardList" resultType="int">
+		SELECT COUNT(*)
+		FROM FREE_BBS
+	</select>
+	
+	<!-- 페이징 처리 후 프로젝트 게시글 조회 -->
+	<select id="selectBoard" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 정보구름 게시글 조회 -->
+	<select id="selectBoardList" resultType="BoardDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_BBS
+						ORDER BY BBS_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<!-- 페이징 처리 후 근무형태 검색 결과 -->
+	<select id="getW" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무형태 게시글 수  -->
+	<select id="countgetW" parameterType="java.util.HashMap" resultType="int">
+		SELECT COUNT(*)
+		FROM (SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}) S
+	</select>
+	
+	<!-- 페이징 처리 후 개발 카테고리 검색 결과 -->
+	<select id="getMKD" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 디자인 카테고리 검색 결과 -->
+	<select id="getMKDS" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 지역 검색 결과 -->
+	<select id="getAddr" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_ADDRESS = '${PROJECT_ADDRESS}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무/개발 검색 결과 -->
+	<select id="getWMKD" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무/디자인 검색 결과 -->
+	<select id="getWMKDS" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무/지역 검색 결과 -->
+	<select id="getWADDR" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}' 
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 개발/디자인 검색 결과 -->
+	<select id="getDMKD" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}' OR PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 개발/지역 검색 결과 -->
+	<select id="getMADDR" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}' AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 디자인/지역 검색 결과 -->
+	<select id="getMKADDR" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}' AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무/개발/디자인 검색 결과 -->
+	<select id="getWDMKD" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE (PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}') OR (PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE}')
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+		
+	<!-- 페이징 처리 후 근무/개발/지역 검색 결과 -->
+	<select id="getWMKDADDR" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE (PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}') AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 후 근무/디자인/지역 검색 결과 -->
+	<select id="getWDMKDADDR" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE (PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}') AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}'
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+		
+	<!-- 페이징 처리 후 전부 검색 결과 -->
+	<!-- <select id="getAll" parameterType="java.util.HashMap" resultType="ProjectDTO">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM FREE_PROJECT
+						WHERE ((PROJECT_WORKING_KIND = '${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'devel' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE_KATEGORY}') PROJECT_ADDRESS = '${PROJECT_ADDRESS}') OR ((${PROJECT_WORKING_KIND}' AND PROJECT_MAIN_KATEGORY = 'design' AND PROJECT_MIDDLE_KATEGORY = '${PROJECT_MIDDLE}') AND PROJECT_ADDRESS = '${PROJECT_ADDRESS}')
+						ORDER BY PROJECT_IDX DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select> -->
+	
+
+	<!-- <select id="getTList" resultType="hashmap" parameterType="hashmap">
+    SELECT
+        name, age
+    FROM
+        TB_user
+    WHERE
+        age = #{sUser_age} AND
+        <foreach collection="sUser_type" item="type"  open="(" close=")" separator="or">
+            user_type = #{type.value}
+        </foreach>
+</select> -->
+ 
+
+	
+</mapper>
