@@ -49,6 +49,33 @@ public class ProjectController {
 	@Autowired
 	EtcService etcSer;
 
+	// 회원 수 통계 화면
+	@RequestMapping(value = "userStatistics.do")
+	public ModelAndView userStatic(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/statistics/statistics_users");
+		mav = setTop(mav);
+		return mav;
+	}
+
+	// 프로젝트 통계 화면
+	@RequestMapping(value = "projectStatistics.do")
+	public ModelAndView projectStatic(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/statistics/statistics_project");
+		mav = setTop(mav);
+		return mav;
+	}
+
+	// 수익 통계 화면
+	@RequestMapping(value = "revenueStatistics.do")
+	public ModelAndView statistics_revenue(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/statistics/statistics_revenue");
+		mav = setTop(mav);
+		return mav;
+	}
+
 	// 프로젝트 등록 화면
 	@RequestMapping(value = "projectReg.do")
 	public ModelAndView projectReg(Locale locale, Model model) {
@@ -85,11 +112,7 @@ public class ProjectController {
 			@RequestParam(value = "wk", required = false) String wk) {
 
 		System.out.println("ProjectSearch.jsp" + wk);
-		/*
-		 * List<ProjectDTO> list = projectSer.selectProject(dto); for(int i=0;
-		 * i<list.size(); i++) { System.out.println(i + "번째 값 : " + list.get(i)); }
-		 * System.out.println("값이 없다는거임?"); System.out.println(list + " 값좀줘요");
-		 */
+
 		int total = projectSer.countBoard();
 
 		if (nowPage == null && cntPerPage == null) {
@@ -128,12 +151,8 @@ public class ProjectController {
 
 			@RequestParam(value = "mkds", required = false) String mkds,
 
-			@RequestParam(value = "addr", required = false) String addr,
-			HttpServletResponse response) {
+			@RequestParam(value = "addr", required = false) String addr, HttpServletResponse response) {
 
-		
-		
-		
 		System.out.println("현재 페이지 : " + nowPage);
 		System.out.println("카운트 페이지 : " + cntPerPage);
 		System.out.println("근무 형태 : " + wk);
@@ -141,7 +160,7 @@ public class ProjectController {
 		System.out.println("미들 카테고리 : " + mkds);
 		System.out.println("지역 : " + addr);
 
-		if(wk == "undefined") {
+		if (wk == "undefined") {
 			System.out.println("안해안해");
 		}
 		List<ProjectDTO> list = null;
@@ -154,20 +173,20 @@ public class ProjectController {
 		} else if (cntPerPage == null) {
 			cntPerPage = "5";
 		}
-		
+
 		int total = projectSer.countBoard();
 		dto = new PagingDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
 		int end = dto.getEnd();
 		int start = dto.getStart();
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		// 1.근무 형태만 선택되었을 때
 		if (wk != null) {
-			if(mkd=="") {
-				if(mkds=="") {
-					if(addr=="") {
+			if (mkd == "") {
+				if (mkds == "") {
+					if (addr == "") {
 						System.out.println("근무 형태만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -175,17 +194,17 @@ public class ProjectController {
 						list = projectSer.getW(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 1.개발 카테고리만 선택되었을 때
 		if (wk == "") {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("개발만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -193,17 +212,17 @@ public class ProjectController {
 						list = projectSer.getMKD(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 1.디자인 카테고리만 선택되었을 때
 		if (wk == "") {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("디자인만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -211,17 +230,17 @@ public class ProjectController {
 						list = projectSer.getMKDS(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 1.지역만 선택되었을 때
 		if (wk == "") {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("지역만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -229,17 +248,17 @@ public class ProjectController {
 						list = projectSer.getAddr(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 2.근무/개발
 		if (wk != null) {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("근무/개발만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -248,17 +267,17 @@ public class ProjectController {
 						list = projectSer.getWMKD(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 2.근무/디자인
 		if (wk != null) {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("근무/디자인만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -267,17 +286,17 @@ public class ProjectController {
 						list = projectSer.getWMKDS(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 2.근무/지역
 		if (wk != null) {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("근무/지역만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -286,17 +305,17 @@ public class ProjectController {
 						list = projectSer.getWADDR(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 2.개발/디자인
 		if (wk == "") {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("개발/디자인만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -305,17 +324,17 @@ public class ProjectController {
 						list = projectSer.getDMKD(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 2.개발/지역
-		if (wk =="") {
+		if (wk == "") {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("개발/지역만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -324,17 +343,17 @@ public class ProjectController {
 						list = projectSer.getMADDR(map);
 					}
 				}
-			}				
+			}
 		}
-		
+
 		// 2.디자인/지역
-		if (wk =="") {
+		if (wk == "") {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("디자인/지역만 선택");
 						map.put("start", start);
 						map.put("end", end);
@@ -343,69 +362,69 @@ public class ProjectController {
 						list = projectSer.getMKADDR(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 3.근무/개발/디자인
-		if (wk !=null) {
+		if (wk != null) {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr=="") {
+					if (addr == "") {
 						System.out.println("근무/개발/디자인 선택");
 						map.put("start", start);
 						map.put("end", end);
 						map.put("PROJECT_WORKING_KIND", wk);
 						map.put("PROJECT_MIDDLE_KATEGORY", mkd);
-						map.put("PROJECT_MIDDLE", mkds);						
+						map.put("PROJECT_MIDDLE", mkds);
 						list = projectSer.getWDMKD(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 3.근무/개발/지역
-		if (wk !=null) {
+		if (wk != null) {
 			System.out.println("1");
-			if(mkd!=null) {
+			if (mkd != null) {
 				System.out.println("2");
-				if(mkds=="") {
+				if (mkds == "") {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("근무/개발/지역 선택");
 						map.put("start", start);
 						map.put("end", end);
 						map.put("PROJECT_WORKING_KIND", wk);
 						map.put("PROJECT_MIDDLE_KATEGORY", mkd);
-						map.put("PROJECT_ADDRESS", addr);						
+						map.put("PROJECT_ADDRESS", addr);
 						list = projectSer.getWMKDADDR(map);
 					}
 				}
-			}				
+			}
 		}
 
 		// 3.근무/디자인/지역
-		if (wk !=null) {
+		if (wk != null) {
 			System.out.println("1");
-			if(mkd=="") {
+			if (mkd == "") {
 				System.out.println("2");
-				if(mkds!=null) {
+				if (mkds != null) {
 					System.out.println("3");
-					if(addr!=null) {
+					if (addr != null) {
 						System.out.println("근무/디자인/지역 선택");
 						map.put("start", start);
 						map.put("end", end);
 						map.put("PROJECT_WORKING_KIND", wk);
 						map.put("PROJECT_MIDDLE_KATEGORY", mkds);
-						map.put("PROJECT_ADDRESS", addr);						
+						map.put("PROJECT_ADDRESS", addr);
 						list = projectSer.getWDMKDADDR(map);
 					}
 				}
-			}				
+			}
 		}
-		
+
 		// 4.근무/디자인/지역
 		/*
 		 * if (wk != null && mkd != null && mkds != null && addr != null) { if (wk
@@ -418,26 +437,24 @@ public class ProjectController {
 		 */
 
 		System.out.println("리스트값 " + list.get(0));
-		
+
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			
-			if(list == null) {
+
+			if (list == null) {
 				out.println("<script>alert('검색 결과 없음');</script>");
 				out.println("<script>locatiof.href=history.go(-1);</script>");
 				out.flush();
-			}else {
+			} else {
 				System.out.println(list.get(0));
 			}
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 
-		
-		
+
 		return null;
 	}
 

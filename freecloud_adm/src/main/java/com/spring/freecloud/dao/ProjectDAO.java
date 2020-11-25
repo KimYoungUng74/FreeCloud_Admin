@@ -17,14 +17,14 @@ import com.spring.freecloud.dto.UserDTO;
 import com.spring.freecloud.util.PagingDTO;
 import com.spring.freecloud.util.SHA256;
 
-//[DBì—°ê²° ì‚¬ìš©ë²•] 3. ì¸í„°í˜ì´ìŠ¤ ë°›ì•„ì„œ í´ë˜ìŠ¤ ìƒì„±
+//[DB¿¬°á »ç¿ë¹ı] 3. ÀÎÅÍÆäÀÌ½º ¹Ş¾Æ¼­ Å¬·¡½º »ı¼º
 @Repository
 public class ProjectDAO {
-	// ì»¨í…Œì´ë„ˆê°€ ê°ì²´ë¥¼ ìë™ìœ¼ë¡œ ìƒì„± Autowired
+	// ÄÁÅ×ÀÌ³Ê°¡ °´Ã¼¸¦ ÀÚµ¿À¸·Î »ı¼º Autowired
 	@Autowired
 	public SqlSessionTemplate mybatis;
 
-	// í”„ë¡œì íŠ¸ ë“±ë¡
+	// ÇÁ·ÎÁ§Æ® µî·Ï
 	public void projectWrite(ProjectDTO dto) {
 
 		mybatis.insert("BoardMapper.projectWrite", dto);
@@ -35,13 +35,13 @@ public class ProjectDAO {
 		return mybatis.selectOne("BoardMapper.getImage", USER_ID);
 	}
 
-	// í”„ë¡œì íŠ¸ ì°¸ì—¬
+	// ÇÁ·ÎÁ§Æ® Âü¿©
 	public void projectJoin(ProjectJoinDTO dto) {
 
 		mybatis.insert("BoardMapper.projectJoin", dto);
 	}
 
-	// í”„ë¡œì íŠ¸ ëª©ë¡ ì¡°íšŒ
+	// ÇÁ·ÎÁ§Æ® ¸ñ·Ï Á¶È¸
 	public List<ProjectDTO> listAll() {
 		// TODO Auto-generated method stub
 		// return mybatis.selectOne("UserMapper.viewUser", dto);
@@ -49,90 +49,95 @@ public class ProjectDAO {
 		return mybatis.selectList("BoardMapper.projectListAll");
 	}
 
-	// í”„ë¡œì íŠ¸ ì¡°íšŒ
+	// ÇÁ·ÎÁ§Æ® Á¶È¸
 	public ProjectDTO projectRead(int PROJECT_IDX) {
 		return mybatis.selectOne("BoardMapper.projectView", PROJECT_IDX);
 	}
 
-	// ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜
+	// °Ô½Ã±Û ÃÑ °¹¼ö
 
 	public int countBoard() {
 		return mybatis.selectOne("BoardMapper.countBoard");
 	}
 
-	// í˜ì´ì§• ì²˜ë¦¬ ê²Œì‹œê¸€ ì¡°íšŒ
+	// ÆäÀÌÂ¡ Ã³¸® °Ô½Ã±Û Á¶È¸
 
 	public List<ProjectDTO> selectProject(PagingDTO dto) {
 		return mybatis.selectList("BoardMapper.selectBoard", dto);
 	}
 
-	// ê·¼ë¬´ í˜•íƒœë§Œ ì„ íƒ
+	//È¸¿ø ¼ö ¿ùº°
+	public List<ProjectDTO> freelancerCount(){
+		return mybatis.selectList("BoardMapper.getFreeCount");
+	}
+	
+	// ±Ù¹« ÇüÅÂ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getW(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getW", map);
 	}
 
-	// ê°œë°œí˜•íƒœë§Œ ì„ íƒ
+	// °³¹ßÇüÅÂ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getMKD(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getMKD", map);
 	}
 
-	// ë””ìì¸ í˜•íƒœë§Œ ì„ íƒ
+	// µğÀÚÀÎ ÇüÅÂ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getMKDS(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getMKDS", map);
 	}
 
-	// ì§€ì—­ë§Œ ì„ íƒ
+	// Áö¿ª¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getAddr(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getAddr", map);
 	}
 
-	// ê·¼ë¬´ ê°œë°œë§Œ ì„ íƒ
+	// ±Ù¹« °³¹ß¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWMKD(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWMKD", map);
 	}
 
-	// ê·¼ë¬´ ë””ìì¸ í˜•íƒœë§Œ ì„ íƒ
+	// ±Ù¹« µğÀÚÀÎ ÇüÅÂ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWMKDS(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWMKDS", map);
 	}
 
-	// ê·¼ë¬´ ì§€ì—­ë§Œ ì„ íƒ
+	// ±Ù¹« Áö¿ª¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWADDR(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWADDR", map);
 	}
 
-	// ê°œë°œ ë””ìì¸ë§Œ ì„ íƒ
+	// °³¹ß µğÀÚÀÎ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getDMKD(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getDMKD", map);
 	}
 
-	// ê°œë°œ ë””ìì¸ë§Œ ì„ íƒ
+	// °³¹ß µğÀÚÀÎ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getMADDR(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getMADDR", map);
 	}
 
-	// ë””ìì¸ ì§€ì—­ë§Œ ì„ íƒ
+	// µğÀÚÀÎ Áö¿ª¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getMKADDR(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getMKADDR", map);
 	}
 
-	// ê·¼ë¬´ ê°œë°œ ë””ìì¸ë§Œ ì„ íƒ
+	// ±Ù¹« °³¹ß µğÀÚÀÎ¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWDMKD(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWDMKD", map);
 	}
 
-	// ê·¼ë¬´ ê°œë°œ ì§€ì—­ë§Œ ì„ íƒ
+	// ±Ù¹« °³¹ß Áö¿ª¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWMKDADDR(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWMKDADDR", map);
 	}
 
-	// ê·¼ë¬´ ë””ìì¸ ì§€ì—­ë§Œ ì„ íƒ
+	// ±Ù¹« µğÀÚÀÎ Áö¿ª¸¸ ¼±ÅÃ
 	public List<ProjectDTO> getWDMKDADDR(Map<String, Object> map) {
 		return mybatis.selectList("BoardMapper.getWDMKDADDR", map);
 	}
 
 	/*
-	 * // ì „ë¶€ ì„ íƒ public List<ProjectDTO> getAll(Map<String, Object> map) { //return
+	 * // ÀüºÎ ¼±ÅÃ public List<ProjectDTO> getAll(Map<String, Object> map) { //return
 	 * mybatis.selectList("BoardMapper.getAll", map); }
 	 */
 

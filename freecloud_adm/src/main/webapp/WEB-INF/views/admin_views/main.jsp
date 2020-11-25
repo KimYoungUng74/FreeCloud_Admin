@@ -10,6 +10,14 @@
 <title>Home One || Witter Multipage Responsive Template</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- TOAST UI CHART CDN LINK -->
+     <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
+    <script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+    <script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+    <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.js"></script>
+<!-- TOAST UI CHART CDN LINK END -->
+	
 <!-- favicon -->
 <link rel="shortcut icon" type="image/x-icon"
 	href="<c:url value='resources/writer/img/favicon.ico'/>">
@@ -129,9 +137,9 @@
 										<a href="about.do">통계 안내</a>
 									</h4>
 									<ul class="sub-menu">
-										<li><a href="useProject.do">회원 수 통계</a></li>
-										<li><a href="useFreelancer.do">프로젝트 통계</a></li>
-										<li><a href="useProjectSerch.do">수익 통계</a></li>
+										<li><a href="userStatistics.do">회원 수 통계</a></li>
+										<li><a href="projectStatistics.do">프로젝트 통계</a></li>
+										<li><a href="revenueStatistics.do">수익 통계</a></li>
 									</ul></li>
 							</ul>
 						</nav>
@@ -153,48 +161,7 @@
 		</div>
 	</div>
 	<!--Header Area End-->
-	<!-- Mobile Menu Start -->
-	<div class="mobile-menu-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<div class="mobile-menu">
-						<nav id="dropdown">
-							<ul id="nav">
-								<li><h4>
-										<a href="projectSearch.do">회원 관리</a>
-									</h4>
-									<ul class="sub-menu">
-										<li><a href="projectReg.do">회원정보 관리</a></li>
-										<li><a href="projectSearch.do">문의내역 관리</a></li>
-										<li><a href="projectSearch.do">제재내역 관리</a></li>
-									</ul></li>
-								<li><h4>
-										<a href="projectSearch.do">수익 관리</a>
-									</h4>
-									<ul class="sub-menu">
-										<li><a href="projectReg.do">중개수수료 관리</a></li>
-										<li><a href="projectSearch.do">프리미엄등급 구독료 관리</a></li>
-									</ul></li>
-								<li><h4>
-										<a href="boardList.do">게시판 관리</a>
-									</h4>
-									
-								<li><h4>
-										<a href="about.do">통계 안내</a>
-									</h4>
-									<ul class="sub-menu">
-										<li><a href="useProject.do">회원 수 통계</a></li>
-										<li><a href="useFreelancer.do">프로젝트 통계</a></li>
-										<li><a href="useProjectSerch.do">수익 통계</a></li>
-									</ul></li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 	<!-- Mobile Menu End -->
 	<!-- Counter Area Start -->
 	<div class="counter-area section-padding text-center"
@@ -246,9 +213,8 @@
 	</div>
 	<!-- Counter Area End -->
 	<!-- Featured Product Area Start -->
-	<!--  -->
-	<br><br>
-	<h2 class="section-title">통계 탭</h2>
+	<div class="featured-product-area section-padding">
+		<h2 class="section-title">통계</h2>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -257,35 +223,52 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li role="presentation" class="first-item active"><a
 								id="clickDesign" href="#design" aria-controls="arrival"
-								role="tab" data-toggle="tab">전체 통계</a></li>
+								role="tab" data-toggle="tab">전체 월별 통계</a></li>
 							<li role="presentation"><a href="#devel" id="clickDevel"
-								aria-controls="sale" role="tab" data-toggle="tab">회원 수 </a></li>
+								aria-controls="sale" role="tab" data-toggle="tab">회원 통계(실시간)</a></li>
 							<li role="presentation"><a href="#contents"
-								aria-controls="sale" role="tab" data-toggle="tab">프로젝트</a></li>
-							<li role="presentation"><a href="#consulting"
-								aria-controls="sale" role="tab" data-toggle="tab">수익</a></li>
+								aria-controls="sale" role="tab" data-toggle="tab">프로젝트 통계</a></li>
+							
 							
 						</ul>
 					</div>
 				</div>
 			</div>
-			
-			<div class="breadcrumbs-area">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-					    <div class="breadcrumbs">
-					       <h2>그래프가 들어온 공간</h2> 
-					       <ul class="breadcrumbs-list">
-						        
-						        <li>Graph</li>
-						    </ul>
-					    </div>
+			<div class="row">
+				<div class="product-list tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="design">
+						<div class="featured-product-list indicator-style">
+							
+								<!-- 메뉴 시작-->
+									<div id="chart-area" style="margin: 0 auto;"></div>
+									
+								<!-- 메뉴 끝 -->
+							
+						</div>
 					</div>
+					<div role="tabpanel" class="tab-pane fade in active" id="devel">
+						<div class="featured-product-list indicator-style">
+								<!-- 메뉴 시작-->
+									<div id="chart-area1" style="margin: 0 auto;"></div>
+									
+								<!-- 메뉴 끝 -->
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane fade in active" id="contents">
+						<div class="featured-product-list indicator-style">
+							<!-- 메뉴 시작-->
+									<div id="chart-area2" style="margin: 0 auto;"></div>
+									
+								<!-- 메뉴 끝 -->
+						</div>
+					</div>
+					
+						
+				</div>
 				</div>
 			</div>
 		</div>
-	</div>
+
 	               
 	<!--  -->
 	<br><br>
@@ -464,5 +447,240 @@
 		type="text/javascript"></script>
 	<!-- main js -->
 	<script src="<c:url value='resources/writer/js/main.js'/>"></script>
+	
+	<!-- CHart -->
+	<script type="text/javascript">
+		var container = document.getElementById('chart-area');
+		var data = {
+		    categories: ['1월', '2월', '3월', '4월', '5월', '6월','7월', '8월', '9월', '10월', '11월', '12월'],
+		    series: [
+		        {
+		            name: '회원(명)',
+		            data: [500, 600, 873, 1235, 6377, 7685, 7599, 6466, 7777, 8000, 8888,9999]
+		        },
+		        {
+		            name: '구독자(명)',
+		            data: [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
+		        },
+		        {
+		            name: '프리미엄 등급 수익(천만원)',
+		            data: [159, 223, 533, 235, 666, 444, 333, 352, 500, 600, 263, 400]
+		        },
+		        {
+		            name: '중개수수료 수익(천만원)',
+		            data: [1000, 1200, 1400, 1468, 1112, 2222, 2252, 3356, 2356, 5555, 6666,5434]
+		        },
+		        {
+		            name: '완료된 프로젝트(갯수)',
+		            data: [100, 500, 300, 800, 1000, 800, 700, 600, 450, 470, 900, 980]
+		        },
+		        
+		    ]
+		};
+		var options = {
+		    chart: {
+		        width: 1200,
+		        height: 540,
+		        title: '월별 전체 통계'
+		    },
+		    yAxis: {
+		        title: '회원(명)/수익(천만원)',
+		        pointOnColumn: true
+		    },
+		    xAxis: {
+		        title: 'Month'
+		    },
+		    series: {
+		        spline: true,
+		        showDot: false
+		    },
+		    tooltip: {
+		        suffix: ''
+		    }
+		};
+		var theme = {
+		    series: {
+		        colors: [
+		            '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+		            '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+		        ]
+		    }
+		};
+	
+		// For apply theme
+	
+		// tui.chart.registerTheme('myTheme', theme);
+		// options.theme = 'myTheme';
+	
+		tui.chart.lineChart(container, data, options);
+		
+		
+		// chart 2
+		function getRandom(start, end) {
+		    return start + (Math.floor(Math.random() * (end - start + 1)));
+		}
+		
+		function zeroFill(number) {
+		    var filledNumber;
+		
+		    if (number < 10) {
+		        filledNumber = '0' + number;
+		    } else {
+		        filledNumber = number;
+		    }
+		
+		    return filledNumber;
+		}
+		
+		function adjustTime(time, addTime) {
+		    addTime = addTime || 60;
+		    if (time < 0) {
+		        time += addTime;
+		    }
+		    return time;
+		}
+		
+		function makeDate(hour, minute, second) {
+		    return zeroFill(adjustTime(hour, 24)) + ':' + zeroFill(adjustTime(minute)) + ':' + zeroFill(adjustTime(second));
+		}
+		
+		function range(start, stop, step) {
+		    var arr = [];
+		    var flag;
+		
+		    if (typeof stop === 'undefined') {
+		        stop = start || 0;
+		        start = 0;
+		    }
+		
+		    step = step || 1;
+		    flag = step < 0 ? -1 : 1;
+		    stop *= flag;
+		
+		    for (; start * flag < stop; start += step) {
+		        arr.push(start);
+		    }
+		
+		    return arr;
+		}
+		
+		var legends = ['회원(명)', '구독자(명)'];
+		var seriesData = range(2).map(function (value, index) {
+		    var name = legends[index];
+		    var data = range(20).map(function () {
+		        return getRandom(150, 200);
+		    });
+		    return {
+		        name: name,
+		        data: data
+		    };
+		});
+		var baseNow = new Date();
+		var startSecond = baseNow.getSeconds() - seriesData[0].data.length - 1;
+		var categories = seriesData[0].data.map(function (value, index) {
+		    var hour = baseNow.getHours();
+		    var minute = baseNow.getMinutes();
+		    var second = startSecond + index;
+		
+		    if (second < 0) {
+		        minute -= 1;
+		    }
+		
+		    if (minute < 0) {
+		        hour -= 1;
+		    }
+		    return makeDate(hour, minute, (startSecond + index));
+		});
+		var container1 = document.getElementById('chart-area1');
+		var data1 = {
+		    categories: categories,
+		    series: seriesData
+		};
+		var options1 = {
+		    chart: {
+		        width: 1200,
+		        height: 540,
+		        title: '실시간 회원 통계'
+		    },
+		    xAxis: {
+		        title: '시간',
+		        labelInterval: 3,
+		        tickInterval: 'auto'
+		    },
+		    yAxis: {
+		        title: '명'
+		    },
+		    series: {
+		        spline: true,
+		        showDot: true,
+		        shifting: true
+		    },
+		    tooltip: {
+		        grouped: true
+		    }
+		};
+		var chart = tui.chart.lineChart(container1, data1, options1);
+		
+		chart.on('load', function () {
+		    var index = categories.length;
+		    setInterval(function () {
+		        var now = new Date();
+		        var category = makeDate(now.getHours(), now.getMinutes(), now.getSeconds());
+		        var values = [getRandom(150, 200), getRandom(150, 200)];
+		
+		        chart.addData(category, values);
+		        index += 1;
+		    }, 1000);
+		});
+		
+		//chart 3
+			var container2 = document.getElementById('chart-area2');
+			var data2 = {
+			    categories: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
+			    series: [
+			        {
+			            name: '총 프로젝트(갯수)',
+			            data: [5000, 3000, 5000, 7000, 6000, 4000, 1000, 5000, 3000, 5000, 7000, 6000, 4000, 1000]
+			        },
+			        {
+			            name: '완료한 프로젝트(갯수)',
+			            data: [8000, 1000, 7000, 2000, 6000, 3000, 5000, 8000, 1000, 7000, 2000, 6000, 3000, 5000]
+			        }
+			    ]
+			};
+			var options2 = {
+			    chart: {
+			        width: 1200,
+			        height: 650,
+			        title: '월별 완료 프로젝트 현황',
+			        'format': '1,000'
+			    },
+			    yAxis: {
+			        title: 'Month'
+			    },
+			    xAxis: {
+			        title: 'Amount',
+			        max: 14000
+			    },
+			    series: {
+			        stack: 'normal'
+			    }
+			};
+			var theme = {
+			    series: {
+			        colors: [
+			            '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+			            '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+			        ]
+			    }
+			};
+	
+			// For apply theme
+			
+			// tui.chart.registerTheme('myTheme', theme);
+			// options.theme = 'myTheme';
+			
+			tui.chart.barChart(container2, data2, options2);
+	</script>
 </body>
 </html>

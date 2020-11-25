@@ -62,6 +62,7 @@ public class ProjectService {
 	// 근무 형태만 선택
 	public List<ProjectDTO> getW(Map<String, Object> map) {
 		return dao.getW(map);
+
 	}
 
 	// 개발 형태만 선택
@@ -99,7 +100,7 @@ public class ProjectService {
 		return dao.getDMKD(map);
 	}
 
-	// 개발 지역만 선택
+	// 개발 지역만 선택 public
 	public List<ProjectDTO> getMADDR(Map<String, Object> map) {
 		return dao.getMADDR(map);
 	}
@@ -122,6 +123,12 @@ public class ProjectService {
 	// 근무 디자인 지역만 선택
 	public List<ProjectDTO> getWDMKDADDR(Map<String, Object> map) {
 		return dao.getWDMKDADDR(map);
+	}
+
+	// 회원 수 통계
+
+	public List<ProjectDTO> freelancerCount() {
+		return dao.freelancerCount();
 	}
 
 	/*

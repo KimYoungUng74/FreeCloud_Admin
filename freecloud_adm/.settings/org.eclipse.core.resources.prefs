@@ -1,3 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/spring/freecloud/controller/BoardController.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/controller/ProjectController.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/controller/UserController.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/dao/ProjectDAO.java=EUC-KR
+encoding//src/main/java/com/spring/freecloud/dao/UserDAO.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/service/BoardService.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/service/EtcService.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/service/ProjectService.java=UTF-8
+encoding//src/main/java/com/spring/freecloud/service/UserService.java=UTF-8
 encoding/<project>=UTF-8

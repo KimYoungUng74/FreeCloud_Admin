@@ -10,6 +10,15 @@
 <title>Home One || Witter Multipage Responsive Template</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- TOAST UI CHART CDN LINK -->
+     <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
+    <script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+    <script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+    <script src="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.js"></script>
+<!-- TOAST UI CHART CDN LINK END -->
+
+
 <!-- favicon -->
 <link rel="shortcut icon" type="image/x-icon"
 	href="<c:url value='resources/writer/img/favicon.ico'/>">
@@ -350,9 +359,9 @@
 										<a href="about.do">통계 안내</a>
 									</h4>
 									<ul class="sub-menu">
-										<li><a href="useProject.do">회원 수 통계</a></li>
-										<li><a href="useFreelancer.do">프로젝트 통계</a></li>
-										<li><a href="useProjectSerch.do">수익 통계</a></li>
+										<li><a href="userStatistics.do">회원 수 통계</a></li>
+										<li><a href="projectStatistics.do">프로젝트 통계</a></li>
+										<li><a href="revenueStatistics.do">수익 통계</a></li>
 									</ul></li>
 							</ul>
 						</nav>
@@ -512,13 +521,15 @@
 										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">총 수입</span>
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
+										<input type="text" style="width: 30%; text-align: center;" value="80.000.000원">
+										<input type="text" style="width: 30%; text-align: center;" value="40.000.000원">
+										<input type="text" style="width: 30%; text-align: center;" value="120.000.000원">
 										</p>
 										
 										
-								밑에 그래프 추가 예정
+										<div>
+											<div id="chart-area"></div>
+										</div>
 								
 									</div>
 									
@@ -802,5 +813,64 @@
 		type="text/javascript"></script>
 	<!-- main js -->
 	<script src="<c:url value='resources/writer/js/main.js'/>"></script>
+	
+	<script type="text/javascript">
+	var container = document.getElementById('chart-area');
+	var data = {
+	    categories: ['1월', '2월', '3월', '4월', '5월', '6월','7월', '8월', '9월', '10월', '11월', '12월'],
+	    series: [
+	        {
+	            name: '총 수입(만원)',
+	            data: [2000, 4000, 6000, 8000, 6000, 7000, 6500, 7500, 8000, 9000, 7000,8000]
+	        },
+	        {
+	            name: '중개수수료 수익(만원)',
+	            data: [1000, 1200, 1400, 1468, 1112, 2222, 2252, 3356, 2356, 5555, 6666,5434]
+	        },
+	        {
+	            name: '프리미엄 등급 수익(만원)',
+	            data: [1000, 2800, 4600, 5000, 4800, 4444, 4000, 4200, 5500, 3500, 2000, 2600]
+	        }
+	        
+	        
+	    ]
+	};
+	var options = {
+	    chart: {
+	        width: 700,
+	        height: 540,
+	        title: '월별 전체 통계'
+	    },
+	    yAxis: {
+	        title: '만원',
+	        pointOnColumn: true
+	    },
+	    xAxis: {
+	        title: '월'
+	    },
+	    series: {
+	        spline: true,
+	        showDot: false
+	    },
+	    tooltip: {
+	        suffix: ''
+	    }
+	};
+	var theme = {
+	    series: {
+	        colors: [
+	            '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+	            '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+	        ]
+	    }
+	};
+
+	// For apply theme
+
+	// tui.chart.registerTheme('myTheme', theme);
+	// options.theme = 'myTheme';
+
+	tui.chart.lineChart(container, data, options);
+	</script>
 </body>
 </html>
