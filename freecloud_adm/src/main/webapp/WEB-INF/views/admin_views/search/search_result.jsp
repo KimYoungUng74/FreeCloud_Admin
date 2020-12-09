@@ -273,7 +273,7 @@
 													<tbody>
 														<c:forEach var="row" items="${list }" varStatus="status">
 															<tr>
-																<td><a href="#"><h3>${row.USER_ID}</h3></a></td>
+																<td><a href="user_info.do?userID=${row.USER_ID}"><h3>${row.USER_ID}</h3></a></td>
 																
 																<td style="text-align: center;">
 																	${row.USER_PHONE1} - ${row.USER_PHONE2} - ${row.USER_PHONE3}

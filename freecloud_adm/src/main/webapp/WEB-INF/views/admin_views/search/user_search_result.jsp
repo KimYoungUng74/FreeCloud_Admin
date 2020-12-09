@@ -65,29 +65,7 @@
 <script
 	src="<c:url value='resources/writer/js/vendor/modernizr-2.8.3.min.js'/>"></script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
 
-		// 비밀번호 확인				
-		$(function() {
-			//비밀번호 확인
-			$('#restraint').click(function() {
-				var check ="";
-				check = prompt("제재사유를 적으세요.");
-				
-				if(check != "") {
-					$('#why_restraint').val(check);
-					$('#restraint_form').submit();
-				}
-				
-			})
-
-		});
-
-		
-</script>
-<script type="text/javascript">
-
-</script>
 
 </head>
 <body>
@@ -124,8 +102,8 @@
 										<a href="projectSearch.do">수익 관리</a>
 									</h4>
 									<ul class="sub-menu">
-										<li><a href="projectReg.do">중개수수료 관리</a></li>
-										<li><a href="projectSearch.do">프리미엄등급 구독료 관리</a></li>
+										<li><a href="manageFees.do">중개수수료 관리</a></li>
+										<li><a href="manage_subscription_fee.do">프리미엄등급 구독료 관리</a></li>
 									</ul></li>
 								<li><h4>
 										<a href="boardList.do">게시판 관리</a>
@@ -250,189 +228,104 @@
 	<div class="shopping-area section-padding">
 		<div class="container">
 			<div class="row">
-			<form id="restraint_form" action="restraint.do" method="post">
-				<input name="USER_ID" type="hidden" value="${dto.USER_ID}">
-				<input id="why_restraint" name="WHY_RESTRAINT" type="hidden" >
-			</form>
-				<form action="myInfoModify.do" method="post" id="infoForm">
-					<div class="col-md-3 col-sm-3 col-xs-12" style="font-size: 20px">
-						<div class="row shop-widget">
-							<div class="thumbnail">
-								<div class="centered" id="profile">
-									<img alt=""
-										src="<c:url value='http://localhost:8181/img/profile/${dto.FREELANCER_IMAGE_PATH}'/>">
-									<input id="originalProfile" type="hidden" value="basic.png">
-								</div>
-							</div>
-							
-							<div class="basic_btn" id="restraint" style="width: 100%">
-								<a>제재 하기</a></div>
-							<br>
-
-						</div>
-					</div>
-					<div class="col-md-9 col-sm-9 col-xs-12" style="font-size: 20px;">
-						<div
-							style="width: 100%; height: 100%; border: 1px solid #D3D3D3; padding: 10px;">
+				<div class="col-md-9 col-sm-9 col-xs-12" style="font-size: 20px;">
+					<div class="shopping-area section-padding">
+						<div class="container">
 							<div class="row">
-								<div class="col-md-6">
-									<p>
-										<label> ID : </label> <input name="USER_ID"
-											value="${dto.USER_ID}" readonly="readonly">
-									<p>
-									<p>
-										<label> 지역 : </label> <select name="USER_ADDRESS">
-											<option value="${dto.USER_ADDRESS}" hidden selected>${dto.USER_ADDRESS}</option>
-											<option value="서울">서울</option>
-											<option value="경기도">경기도</option>
-											<option value="강원도">강원도</option>
-										</select>
-									<p>
-								</div>
-								<div class="col-md-6">
-									<p>
-										<label> 비밀번호 : </label> <input type="password"
-											disabled="disabled" name="USER_PW" value="">
-									<p>
-									<p>
-										<label> 이름 : </label> <input type="text" name="USER_NAME"
-											readonly="readonly" value="${dto.USER_NAME}">
-									<p>
-								</div>
-								<div class="col-md-6">
-									<p>
-										<label> 이메일 : </label> <input type="email" name="USER_EMAIL"
-											readonly="readonly" value="${dto.USER_EMAIL}"
-											placeholder="freeCloud@free.com">
-									</p>
-								</div>
-								<div class="col-md-6">
-									<label> 최종학력 : </label> <select name="USER_EDU">
-										<option value="${dto.USER_EDU}" selected="selected">${dto.USER_EDU}</option>
-									</select>
-								</div>
 
-								<div class="col-md-12">
-									<label> 전화번호 </label>
+								<div class="section-title2">
+									<h2>검색 결과</h2>
+									
 								</div>
-								<div class="col-md-4">
-									<input type="text" name="USER_PHONE1" style="width: 90%;"
-										readonly="readonly" value="${dto.USER_PHONE1}">
-									&nbsp;&nbsp;-
+								<br>
+								
+
+								<!-- 판넬1 시작 -->
+								<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										   <span></span>
+										   사용자 검색 결과
+										</a>
+									</h4>
 								</div>
-								<div class="col-md-4">
-									<input type="text" name="USER_PHONE2" style="width: 90%;"
-										readonly="readonly" value="${dto.USER_PHONE2}">
-									&nbsp;&nbsp;-
-								</div>
-								<div class="col-md-4">
-									<input type="text" name="USER_PHONE3" style="width: 100%;"
-										readonly="readonly" value="${dto.USER_PHONE3}">
-								</div>
-
-								<div class="col-md-12">
-									<br> <label> 자기소개 </label>
-
-									<textarea rows="4" name="FREELANCER_ABOUT_ME"
-										readonly="readonly" style="width: 100%; resize: none;">${dto.FREELANCER_ABOUT_ME}</textarea>
-								</div>
-								<div class="col-md-8">
-									<p>
-										<label> 전문분야 : </label> <select id="CATAGORY1"
-											name="FREELANCER_MAIN_KATEGORY">
-											<option value="${dto.FREELANCER_MAIN_KATEGORY}"
-												selected="selected">${dto.FREELANCER_MAIN_KATEGORY}</option>
-
-										</select> &nbsp; <select id="CATAGORY2"
-											name="FREELANCER_MIDDEL_KATEGORY">
-											<option value="${dto.FREELANCER_MIDDEL_KATEGORY}"
-												selected="selected">${dto.FREELANCER_MIDDEL_KATEGORY}</option>
-										</select>
-									</p>
-								</div>
-								<div class="col-md-4">
-									<p>
-										<label> 경력 : </label> <select name="FREELANCER_CAREER">
-											<c:choose>
-												<c:when test="${dto.FREELANCER_CAREER == 0}">
-													<option value="${dto.FREELANCER_CAREER}" hidden selected>1년미만</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${dto.FREELANCER_CAREER}" hidden selected>${dto.FREELANCER_MIDDEL_KATEGORY}년</option>
-												</c:otherwise>
-											</c:choose>
-
-											<option value=0>1년미만</option>
-											<option value=1>1년</option>
-											<option value=3>3년</option>
-										</select>
-									</p>
-								</div>
-								<div class="col-md-12 basicBtn2">
-									<p>
-										<label> 보유기술 : </label> <input type="text" id="mySkill"
-											name="FREELANCER_SKILL" readonly="readonly"
-											value="${dto.FREELANCER_SKILL}">
-									<p />
-								</div>
-
-
-								<div class="col-md-12" id="portfolio"></div>
-
-								<div class="col-md-12 basicBtn2">
-									<p>
-										<label> 자격증 : </label> <input type="text" id="myLicense"
-											name="FREELANCER_CERTIFICATE" readonly="readonly"
-											value="${dto.FREELANCER_CERTIFICATE}">
-									<p />
-								</div>
-
-								<div class="col-md-12">
-									<br> <label> 진행중 프로젝트 </label>
-
-									<div
-										style="overflow: auto; border: 1px solid #D3D3D3; width: 100%; height: 250px;">
-										<c:forEach var="row" items="${ingList}">
-											<a href="projectView.do?PROJECT_IDX=${row.PROJECT_IDX }">${row.PROJECT_SUBJECT}</a>
-											<br>
-										</c:forEach>
+								<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										
+											
+											<div class="col-md-12 col-sm-12">
+											<!-- 테이블 시작 -->
+											<div class="table-responsive" id="checkout-review-table-wrapper">
+												<br>
+												<table class="data-table" id="checkout-review-table">
+													<thead>
+														<tr>
+															<th rowspan="1">아이디</th>
+															<th rowspan="1">핸드폰번호</th>
+															<th colspan="1">이름</th>
+															<th rowspan="1">분류</th>
+															<th colspan="1">가입날짜</th>
+															<th rowspan="1">거주지</th>
+														</tr>
+													</thead>
+			
+													<tbody>
+														<c:forEach var="row" items="${list }" varStatus="status">
+															<tr>
+																<td><a href="user_info.do?userID=${row.USER_ID}"><h3>${row.USER_ID}</h3></a></td>
+																
+																<td style="text-align: center;">
+																	${row.USER_PHONE1} - ${row.USER_PHONE2} - ${row.USER_PHONE3}
+																</td>
+																
+																<td><h3 class="product-name">${row.USER_NAME}</h3></td>
+																
+																<c:choose>
+																	<c:when test="${row.FREELANCER_PUBLIC eq 1 }">
+																		<td><h3 class="product-name">프리랜서</h3></td>
+																	</c:when>
+																	
+																	<c:when test="${row.FREELANCER_PUBLIC eq 0 }">
+																		<td><h3 class="product-name">일반</h3></td>
+																	</c:when>
+																</c:choose>
+																
+																
+																<td><span class="cart-price"><span
+																		class="check-price">2020-07-08</span></span></td>
+																<td>${row.USER_ADDRESS}</td>
+															</tr>
+														</c:forEach>
+													
+													</tbody>
+			
+												</table>
+											</div>
+											<!-- 테이블 끝 -->
+											</div>
+										
 									</div>
-								</div>
+								</div>                                
+                            	</div>
+								<!-- 판넬 끝 -->
 
-								<div class="col-md-12">
-									<br> <label> 완료한 프로젝트 </label>
 
-									<div
-										style="overflow: auto; border: 1px solid #D3D3D3; width: 100%; height: 250px;">
-										<c:forEach var="row" items="${edList}">
-											<a href="$projectView.do?PROJECT_IDX=${row.PROJECT_IDX }">${row.PROJECT_SUBJECT}</a>
-											<br>
-										</c:forEach>
-									</div>
-								</div>
+							</div>
+							<div class="submit" style="display: inline; float: right;">
 
-								<div class="col-md-12">
-									<br> <label> 문의 내역 </label>
+								<button name="pReg" id="pReg" type="button"
+									onclick="history.go(-1)" class="btn-default"
+									style="width: 100%">
+									<span> <i class="fa fa-user left"></i> 뒤로가기
+									</span>
+								</button>
 
-									<textarea rows="4" name="FREELANCER_ABOUT_ME"
-										style="width: 100%; resize: none;"></textarea>
-								</div>
-
-								<div class="col-md-12">
-									<br> <label> 제재 내역 </label>
-
-									<textarea rows="4" name="FREELANCER_ABOUT_ME"
-										style="width: 100%; resize: none;">제재내역 없음</textarea>
-								</div>
-								<div class="col-md-12">
-									<div class="basic_btn" onclick="history.go(-1);" style="width: 100%">
-										<a>뒤로 가기</a>
-									</div>
-								</div>
 							</div>
 						</div>
+
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

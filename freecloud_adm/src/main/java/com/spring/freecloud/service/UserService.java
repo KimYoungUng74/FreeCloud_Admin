@@ -233,4 +233,9 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return dao.UserList(ID);
 	}
+
+	public int restraint(UserDTO dto) {
+		// TODO Auto-generated method stub
+		return dao.restraint(dto);
+	}
 }

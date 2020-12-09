@@ -217,4 +217,9 @@ public class UserDAO {
 	public List<UserDTO> UserList(String ID) {
 		return mybatis.selectList("UserMapper.UserSearchList", ID);
 	}
+
+	public int restraint(UserDTO dto) {
+		// TODO Auto-generated method stub
+		return mybatis.update("UserMapper.Restraint", dto);
+	}
 }

@@ -324,5 +324,12 @@
 		FROM FREE_USER 
 		WHERE IS_RESTRAINT=1
 	</select>
+	
+	<!--제재 하기 -->
+	<update id="Restraint" parameterType="UserDTO">
+		UPDATE FREE_USER
+    	SET WHY_RESTRAINT = #{WHY_RESTRAINT}, IS_RESTRAINT=1
+    	WHERE USER_ID = #{USER_ID}
+	</update>
 
 </mapper>
