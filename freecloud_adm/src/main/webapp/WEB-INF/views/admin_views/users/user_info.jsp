@@ -425,9 +425,8 @@
 										style="width: 100%; resize: none;">제재내역 없음</textarea>
 								</div>
 								<div class="col-md-12">
-									<div class="basic_btn" style="width: 100%">
-										<a title="Quick view" data-toggle="modal"
-											data-target="#idDialog">뒤로 가기</a>
+									<div class="basic_btn" onclick="history.go(-1);" style="width: 100%">
+										<a>뒤로 가기</a>
 									</div>
 								</div>
 							</div>
