@@ -301,7 +301,7 @@
 		USER_ADDRESS,
 		FREELANCER_PUBLIC
 		FROM FREE_USER
-		WHERE USER_ID LIKE '%'||#{ID}||'%'
+		WHERE USER_ID LIKE '%'||#{ID}||'%' OR USER_NAME LIKE '%'||#{ID}||'%'
 	</select>
 	
 	<!--프리랜서 리스트 -->
