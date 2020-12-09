@@ -76,6 +76,24 @@ public class ProjectController {
 		return mav;
 	}
 
+	//중개수수료 관리
+	@RequestMapping(value = "manageFees.do")
+	public ModelAndView manageFees(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/fee/manage_fees");
+		mav = setTop(mav);
+		return mav;
+	}
+	
+	//프리미엄등급 구독료 관리
+	@RequestMapping(value = "manage_subscription_fee.do")
+	public ModelAndView manage_subscription_fee(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/fee/manage_subscription_fee");
+		mav = setTop(mav);
+		return mav;
+	}
+	
 	// 프로젝트 등록 화면
 	@RequestMapping(value = "projectReg.do")
 	public ModelAndView projectReg(Locale locale, Model model) {

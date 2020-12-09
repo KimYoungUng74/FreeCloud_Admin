@@ -126,15 +126,15 @@
 										<a href="projectSearch.do">수익 관리</a>
 									</h4>
 									<ul class="sub-menu">
-										<li><a href="projectReg.do">중개수수료 관리</a></li>
-										<li><a href="projectSearch.do">프리미엄등급 구독료 관리</a></li>
+										<li><a href="manageFees.do">중개수수료 관리</a></li>
+										<li><a href="manage_subscription_fee.do">프리미엄등급 구독료 관리</a></li>
 									</ul></li>
 								<li><h4>
 										<a href="boardList.do">게시판 관리</a>
 									</h4>
 									
 								<li><h4>
-										<a href="about.do">통계 안내</a>
+										<a href="">통계 안내</a>
 									</h4>
 									<ul class="sub-menu">
 										<li><a href="userStatistics.do">회원 수 통계</a></li>
