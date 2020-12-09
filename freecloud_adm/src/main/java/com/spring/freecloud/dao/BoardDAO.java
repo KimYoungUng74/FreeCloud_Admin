@@ -80,4 +80,12 @@ public class BoardDAO {
 
 	}
 
+	// 프로젝트 목록 조회
+	public List<ProjectDTO> listAll(String value) {
+		// TODO Auto-generated method stub
+		// return mybatis.selectOne("UserMapper.viewUser", dto);
+
+		return mybatis.selectList("BoardMapper.projectSearchListAll",value);
+	}
+
 }

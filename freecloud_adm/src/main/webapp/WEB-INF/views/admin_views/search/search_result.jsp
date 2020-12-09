@@ -65,245 +65,7 @@
 <script
 	src="<c:url value='resources/writer/js/vendor/modernizr-2.8.3.min.js'/>"></script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		//프로필 바꾸기
-		$('#CHANGE')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('file', $('#file')[0].files[0]);
-							formData.append('originalProfile', $(
-									'#originalProfile').val());
-							$
-									.ajax({
-										type : "POST",
-										url : "fileUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var test = "<img alt=\"\"src=\"<c:url value='http://localhost:8181/img/profile/"
-														+ $.trim(data)
-														+ "'/>\">";
-												$('#profile').html(test);
-												$('#profileClose').click();
 
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		// 비밀번호 확인				
-		$(function() {
-			//비밀번호 확인
-			$('#myPass').click(function() {
-
-				$.ajax({
-					type : "POST",
-					url : "checkMyPass.do",
-					data : {
-						"pw" : $('#myPassCheck').val()
-					},
-					success : function(data) { //data : seekPw에서 넘겨준 결과값(pw)
-						if (data == "Not_Match") {
-							alert("비밀번호가 일치하지 않습니다.");
-						} else {
-							$('#infoForm').submit();
-						}
-					}
-				})
-			})
-
-		});
-
-		// 포트폴리오 전송
-		$('#portfolioBtn')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('portfolio',
-									$('#myPortfolio')[0].files[0]);
-
-							$
-									.ajax({
-										type : "POST",
-										url : "myPortfolioUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var idx = data.indexOf("_") + 1;
-												var test = "<div><a href='${path}/upload/displayFile?fileName="
-														+ data
-														+ "'>"
-														+ data.substr(idx)
-														+ "</a><span data-src="+data+">[삭제]</span></div>";
-												$('#portfolio').html(test);
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		$("#portfolio").on("click", "span", function(event) {
-			var that = $(this); // 여기서 this는 클릭한 span태그
-			$.ajax({
-				url : "myPortfolioDeleteAjax.do",
-				type : "post",
-				// data: "fileName="+$(this).attr("date-src") = {fileName:$(this).attr("data-src")}
-				// 태그.attr("속성")
-				data : {
-					fileName : $(this).attr("data-src")
-				}, // json방식
-				dataType : "text",
-				success : function(result) {
-					if (result == "deleted") {
-						// 클릭한 span태그가 속한 div를 제거
-						that.parent("div").remove();
-					}
-				}
-			});
-		})
-	});
-</script>
-<script type="text/javascript">
-	$(function() {
-
-		$('#CATAGORY1')
-				.change(
-						function() {
-							$('#CATAGORY2').children('option').remove();
-							if ($("#CATAGORY1 option:selected").val() == "") {
-								num = new Array("중분류 선택");
-								vnum = new Array("");
-							} else if ($("#CATAGORY1 option:selected").val() == "design") {
-								num = new Array("웹", "제품", "프리젠테이션", "인쇄물",
-										"커머스, 쇼핑몰", "로고", "그래픽", "영상", "게임",
-										"기타");
-								vnum = new Array("WEB", "PRODUCT", "PRE",
-										"PRINT", "SHOP", "LOGO", "GRAPHIC",
-										"VIDEO", "GAME", "OTHER");
-							} else if ($("#CATAGORY1 option:selected").val() == "devel") {
-								num = new Array("웹", "애플리케이션", "워드프로세스",
-										"퍼블리싱", "일반 소프트웨어", "커머스, 쇼핑몰", "게임",
-										"임베디드", "기타");
-								vnum = new Array("WEB", "APP", "WORD", "PUB",
-										"SOFT", "SHOP", "GAME", "IMB", "OTHER");
-							}
-
-							for (var i = 0; i < num.length; i++) {
-								$("#CATAGORY2").append(
-										"<option value='"+vnum[i]+"'>" + num[i]
-												+ "</option>");
-							}
-						})
-
-		$('#skillBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						$('#mySkill').val($('#skillInput').val());
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								alert("이미 등록된 보유기술입니다.");
-								return;
-							}
-						}
-						$('#mySkill').val(
-								$('#mySkill').val() + ","
-										+ $('#skillInput').val());
-						$('#skillInput').val("");
-					}
-				})
-
-		$('#skillDeleteBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						alert("제거할 보유기술이 없습니다.");
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						$('#mySkill').val("");
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								continue;
-							} else {
-								if ($('#mySkill').val() == "") {
-									$('#mySkill').val(newMySkill[i]);
-								} else {
-									$('#mySkill').val(
-											$('#mySkill').val() + ","
-													+ newMySkill[i]);
-								}
-
-							}
-						}
-						$('#skillInput').val("");
-					}
-				})
-		$('#licenseBtn').click(
-				function() {
-					if ($('#myLicense').val() == ""
-							&& !($('#licenseInput').val() == "")) {
-						$('#myLicense').val($('#licenseInput').val());
-					} else {
-
-						var oldMySkill = $('#myLicense').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#licenseInput').val() == newMySkill[i]) {
-								alert("이미 등록된 자격증입니다.");
-								return;
-							}
-						}
-						$('#myLicense').val(
-								$('#myLicense').val() + ","
-										+ $('#licenseInput').val());
-						$('#licenseInput').val("");
-					}
-				})
-		$('#licenseDeleteBtn').click(
-				function() {
-					if ($('#myLicense').val() == "") {
-						alert("제거할 자격증이 없습니다.");
-					} else {
-						var oldMyLicense = $('#myLicense').val();
-						var newMyLicense = oldMyLicense.split(',');
-						$('#myLicense').val("");
-						for ( var i in newMyLicense) {
-							if ($('#licenseInput').val() == newMyLicense[i]) {
-								continue;
-							} else {
-								if ($('#myLicense').val() == "") {
-									$('#myLicense').val(newMyLicense[i]);
-								} else {
-									$('#myLicense').val(
-											$('#myLicense').val() + ","
-													+ newMyLicense[i]);
-								}
-
-							}
-						}
-						$('#licenseInput').val("");
-					}
-				})
-
-	});
-</script>
 
 </head>
 <body>
@@ -466,192 +228,158 @@
 	<div class="shopping-area section-padding">
 		<div class="container">
 			<div class="row">
-
-				<form action="myInfoModify.do" method="post" id="infoForm">
-					
-				</form>
 				<div class="col-md-9 col-sm-9 col-xs-12" style="font-size: 20px;">
 					<div class="shopping-area section-padding">
 						<div class="container">
 							<div class="row">
 
-								<div class="basic_btn" style="width: 100%">
-								<a href="#" title="Quick view" data-toggle="modal"
-									data-target="#pwDialog">게시판 관리</a>
+								<div class="section-title2">
+									<h2>검색 결과</h2>
+									
 								</div>
 								<br>
-								<div class="shop-tab-area">
-									<div class="shop-tab-list">
-										<div class="shop-tab-pill pull-left"></div>
-										<div class="shop-tab-pill pull-right">
-											<ul>
-												<li class="product-size-deatils">
-													<div class="show-label">
-														<label>Show : </label> <select id="cntPerPage" name="sel"
-															onchange="selChange()">
-															<option value="5" selected="">5</option>
-															<option value="10">10</option>
-															<option value="15">15</option>
-															<option value="20">20</option>
-														</select>
-													</div>
-												</li>
+								
 
-
-
-
-
-												<b><li class="shop-pagination">1</li></b>
-
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=2&amp;cntPerPage=5"><li
-													class="shop-pagination">2</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=3&amp;cntPerPage=5"><li
-													class="shop-pagination">3</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=4&amp;cntPerPage=5"><li
-													class="shop-pagination">4</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=5&amp;cntPerPage=5"><li
-													class="shop-pagination">5</li></a>
-
-
-
-
-												<a href="boardList.do?nowPage=6&amp;cntPerPage=5"><i
-													class="fa fa-caret-right"></i></a>
-
-											</ul>
-										</div>
+								<!-- 판넬1 시작 -->
+								<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										   <span></span>
+										   사용자 검색 결과
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										
+											
+											<div class="col-md-12 col-sm-12">
+											<!-- 테이블 시작 -->
+											<div class="table-responsive" id="checkout-review-table-wrapper">
+												<br>
+												<table class="data-table" id="checkout-review-table">
+													<thead>
+														<tr>
+															<th rowspan="1">아이디</th>
+															<th rowspan="1">핸드폰번호</th>
+															<th colspan="1">이름</th>
+															<th rowspan="1">분류</th>
+															<th colspan="1">가입날짜</th>
+															<th rowspan="1">거주지</th>
+														</tr>
+													</thead>
+			
+													<tbody>
+														<c:forEach var="row" items="${list }" varStatus="status">
+															<tr>
+																<td><a href="#"><h3>${row.USER_ID}</h3></a></td>
+																
+																<td style="text-align: center;">
+																	${row.USER_PHONE1} - ${row.USER_PHONE2} - ${row.USER_PHONE3}
+																</td>
+																
+																<td><h3 class="product-name">${row.USER_NAME}</h3></td>
+																
+																<c:choose>
+																	<c:when test="${row.FREELANCER_PUBLIC eq 1 }">
+																		<td><h3 class="product-name">프리랜서</h3></td>
+																	</c:when>
+																	
+																	<c:when test="${row.FREELANCER_PUBLIC eq 0 }">
+																		<td><h3 class="product-name">일반</h3></td>
+																	</c:when>
+																</c:choose>
+																
+																
+																<td><span class="cart-price"><span
+																		class="check-price">2020-07-08</span></span></td>
+																<td>${row.USER_ADDRESS}</td>
+															</tr>
+														</c:forEach>
+													
+													</tbody>
+			
+												</table>
+											</div>
+											<!-- 테이블 끝 -->
+											</div>
+										
 									</div>
-									<div class="tab-content">
-										<!-- Grid 형으로 글 목록 출력 -->
-
-
-
-										<!-- List 형으로 글 목록 출력 -->
-
+								</div>                                
+                            	</div>
+								<!-- 판넬 끝 -->
+								
+								<!-- 판넬2 시작 -->
+								<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingTwo">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										   <span></span>
+										   프로젝트 검색 결과
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										
+											<div class="col-md-12">
+												<!-- 테이블 시작 -->
+											<div class="table-responsive" id="checkout-review-table-wrapper">
+												<br>
+												<table class="data-table" id="checkout-review-table">
+													<thead>
+														<tr>
+															
+															<th rowspan="1">등록자</th>
+															<th rowspan="1">게시글 제목</th>
+															
+															<th rowspan="1">예산</th>
+															<th colspan="1">등록날짜</th>
+															<th rowspan="1">상태</th>
+														</tr>
+													</thead>
+			
+													<tbody>
+										
+														<c:forEach var="row" items="${list2 }" varStatus="status">
+															<tr>
+																<td><a href="#"><h3>${row.USER_ID}</h3></a></td>
+																
+																<td style="text-align: center;">
+																	<a href="#">${row.PROJECT_SUBJECT}</a>
+																</td>
+																
+																<td><h3 class="product-name">${row.PROJECT_BUDGET}</h3></td>
+																
+	
+																<td>${row.PROJECT_START_DATE}</td>
+																		
+																
+																<c:choose>
+																	<c:when test="${row.PROJECT_STATUS eq 1 }">
+																		<td><h3 class="product-name">완료</h3></td>
+																	</c:when>
+																	
+																	<c:when test="${row.PROJECT_STATUS eq 0 }">
+																		<td><h3 class="product-name">진행중</h3></td>
+																	</c:when>
+																</c:choose>
+															</tr>
+														</c:forEach>
+													
+													</tbody>
+			
+												</table>
+											</div>
+											<!-- 테이블 끝 -->
+											</div>	
+																		
+										
 									</div>
 								</div>
-
-								<!-- 테이블 시작 -->
-								<div class="table-responsive" id="checkout-review-table-wrapper">
-									<br>
-									<table class="data-table" id="checkout-review-table">
-										<thead>
-											<tr>
-												<th rowspan="1">번호</th>
-												<th rowspan="1">제목</th>
-												<th colspan="1">아이디</th>
-												<th rowspan="1">분류</th>
-												<th colspan="1">날짜</th>
-												<th rowspan="1">처리상태</th>
-											</tr>
-										</thead>
-
-										<tbody>
-
-											<tr>
-												<td><h3>45</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=45">문의합니다.</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>오류</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-												<td>0</td>
-											</tr>
-
-
-											<tr>
-												<td><h3>44</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=44">문의</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>버그</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-												<td>0</td>
-											</tr>
-
-
-											<tr>
-												<td><h3>43</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=43">문의!!</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>문의</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-												<td>0</td>
-											</tr>
-
-
-											<tr>
-												<td><h3>42</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=42">문의문의</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>질문</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-												<td>0</td>
-											</tr>
-
-
-											<tr>
-												<td><h3>41</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=41">문의해요 </a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>오류</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-												<td>0</td>
-											</tr>
-
-
-										</tbody>
-
-									</table>
-								</div>
-								<!-- 테이블 끝 -->
+                            	</div>
+								<!-- 판넬 끝  -->
 
 								<br>
 
@@ -661,7 +389,7 @@
 								<button name="pReg" id="pReg" type="button"
 									onclick="location.href ='boardReg.do'" class="btn-default"
 									style="width: 100%">
-									<span> <i class="fa fa-user left"></i> 혹시 사용하게 될 버튼
+									<span> <i class="fa fa-user left"></i> 뒤로가기
 									</span>
 								</button>
 

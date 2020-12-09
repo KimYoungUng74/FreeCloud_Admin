@@ -221,4 +221,10 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return dao.UserListALL(FREELANCER_MAIN_KATEGORY);
 	}
+	
+	//검색한 유저
+	public List<UserDTO> UserList(String ID) {
+		// TODO Auto-generated method stub
+		return dao.UserList(ID);
+	}
 }

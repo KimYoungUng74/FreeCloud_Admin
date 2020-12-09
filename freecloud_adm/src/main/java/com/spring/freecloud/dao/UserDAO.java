@@ -207,4 +207,9 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		return mybatis.selectList("UserMapper.UserListALL", FREELANCER_MAIN_KATEGORY);
 	}
+	
+	//검색한 유저
+	public List<UserDTO> UserList(String ID) {
+		return mybatis.selectList("UserMapper.UserSearchList", ID);
+	}
 }

@@ -29,7 +29,7 @@ public class BoardService {
 
 	// 게시글 수정
 	public void projectUpdate(BoardDTO dto) {
-		dao.projectUpdate(dto); 
+		dao.projectUpdate(dto);
 
 	}
 
@@ -67,5 +67,11 @@ public class BoardService {
 
 	}
 
+	// 검색한 게시글 리스트 조회
+	public List<ProjectDTO> listAll(String value) {
+		// TODO Auto-generated method stub
+
+		return dao.listAll(value);
+	}
 
 }
