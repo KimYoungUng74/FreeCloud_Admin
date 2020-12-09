@@ -328,12 +328,12 @@
 						<nav id="dropdown">
 							<ul id="nav">
 								<li><h4>
-										<a href="projectSearch.do">회원 관리</a>
+										<a href="userManage.do">회원 관리</a>
 									</h4>
 									<ul class="sub-menu">
-										<li><a href="projectReg.do">회원정보 관리</a></li>
-										<li><a href="projectSearch.do">문의내역 관리</a></li>
-										<li><a href="projectSearch.do">제재내역 관리</a></li>
+										<li><a href="userManage.do">회원정보 관리</a></li>
+										<li><a href="inquireManage.do">문의내역 관리</a></li>
+										<li><a href="restraintManage.do">제재내역 관리</a></li>
 									</ul></li>
 								<li><h4>
 										<a href="projectSearch.do">수익 관리</a>
