@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.freecloud.dto.ProjectDTO;
 import com.spring.freecloud.dto.ProjectViewDTO;
 import com.spring.freecloud.dto.UserDTO;
+import com.spring.freecloud.service.BoardService;
 import com.spring.freecloud.service.EtcService;
 import com.spring.freecloud.service.UserService;
 
@@ -29,6 +31,8 @@ public class HomeController {
 	UserService userSer;
 	@Autowired
 	EtcService etcSer;
+	@Autowired
+	BoardService brdSer;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -124,4 +128,27 @@ public class HomeController {
 		mav.setViewName("admin_views/main");
 		return mav;
 	}
+	
+	// 전체 검색
+	@RequestMapping(value = "search.do")
+	public ModelAndView search(Locale locale, Model model, String search) {
+
+		
+		List<UserDTO> userList = null;
+		userList = userSer.UserList(search);
+		
+		List<ProjectDTO> projectList = null;
+		projectList = brdSer.listAll(search);
+		
+ 		//System.out.println(userList);
+		
+		ModelAndView mav = new ModelAndView();
+		mav = setTop(mav);
+		mav.setViewName("admin_views/search/search_result");
+		
+		mav.addObject("list", userList);
+		mav.addObject("list2",projectList);
+		return mav;
+	}
+	
 }

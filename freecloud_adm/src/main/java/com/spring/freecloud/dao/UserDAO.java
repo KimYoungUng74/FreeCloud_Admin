@@ -212,4 +212,9 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		return mybatis.selectList("UserMapper.RestraintList");
 	}
+	
+	//검색한 유저
+	public List<UserDTO> UserList(String ID) {
+		return mybatis.selectList("UserMapper.UserSearchList", ID);
+	}
 }

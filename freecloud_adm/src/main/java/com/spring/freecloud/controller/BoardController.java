@@ -107,7 +107,7 @@ public class BoardController {
 		}
 
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("boardList");
+		mav.setViewName("admin_views/board/manage_board");
 		mav.addObject("paging", dto);
 		mav.addObject("viewAll", list);
 		mav = setTop(mav);

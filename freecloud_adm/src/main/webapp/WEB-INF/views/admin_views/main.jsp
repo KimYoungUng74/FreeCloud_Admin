@@ -146,14 +146,18 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-				<br>
-								<input type="text" placeholder="검색어를 입력하세요">
-                                 <button name="submitcreate" id="submitcreate" type="submit" class="btn-default">
-                                    <span>
-                                        <i class="fa fa-search left"></i>
-                                        	
-                                    </span>
-                                </button>
+				<br><br>
+					<form action="search.do">
+                           <input type="text" name=search placeholder="검색어를 입력하세요" style="font-size: 15px;">
+                           <button type="submit" class="btn-default">
+	                           <span>
+	                                <i class="fa fa-search left"></i>
+	                                        	
+	                           </span>
+                           </button>
+                           
+                    </form>			
+								
                             
 				</div>
 
