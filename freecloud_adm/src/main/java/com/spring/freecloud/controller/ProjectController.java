@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,93 @@ public class ProjectController {
 	@Autowired
 	EtcService etcSer;
 
+	Calendar cal = Calendar.getInstance();
+	String YEAR = Integer.toString(cal.get(Calendar.YEAR) - 2000); // 현재 년도 계산
+	String MONTH = Integer.toString(cal.get(Calendar.MONTH) + 1); // 현재 월 계산
+
+	// 중개수수료 관리
+	@RequestMapping(value = "manageFees.do")
+	public ModelAndView manageFees(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin_views/fee/manage_fees");
+		mav = setTop(mav);
+
+		String YearMonth = YEAR + "/" + MONTH;
+
+		// 총액수 , 지불해야할 돈 , 순이익
+		int project_total = projectSer.projectTotal(YearMonth);
+		int profit = (int) (project_total * 0.05);
+		int payment = project_total - profit;
+
+		// 5개까지 가격 높은순으로 출력
+		List<ProjectDTO> list = null;
+		list = projectSer.projectingTotal(YearMonth);
+
+		mav.addObject("year", YEAR);
+		mav.addObject("month", MONTH);
+
+		mav.addObject("total", project_total);
+		mav.addObject("profit", profit);
+		mav.addObject("payment", payment);
+
+		mav.addObject("list", list);
+
+		// 1~12월 순이익 각각 계산
+		int m1 = projectSer.projectTotal(YEAR + "/01");
+		System.out.println(YEAR + "/01");
+		int m1f = (int) (m1 * 0.05);
+
+		System.out.println(m1 + "임");
+		mav.addObject("m1f", m1f);
+
+		int m2 = projectSer.projectTotal(YEAR + "/02");
+		int m2f = (int) (m2 * 0.05);
+
+		int m3 = projectSer.projectTotal(YEAR + "/03");
+		int m3f = (int) (m3 * 0.05);
+
+		int m4 = projectSer.projectTotal(YEAR + "/04");
+		int m4f = (int) (m4 * 0.05);
+
+		int m5 = projectSer.projectTotal(YEAR + "/05");
+		int m5f = (int) (m5 * 0.05);
+
+		int m6 = projectSer.projectTotal(YEAR + "/06");
+		int m6f = (int) (m6 * 0.05);
+
+		int m7 = projectSer.projectTotal(YEAR + "/07");
+		int m7f = (int) (m7 * 0.05);
+
+		int m8 = projectSer.projectTotal(YEAR + "/08");
+		int m8f = (int) (m8 * 0.05);
+
+		int m9 = projectSer.projectTotal(YEAR + "/09");
+		int m9f = (int) (m9 * 0.05);
+
+		int m10 = projectSer.projectTotal(YEAR + "/10");
+		int m10f = (int) (m10 * 0.05);
+
+		int m11 = projectSer.projectTotal(YEAR + "/11");
+		int m11f = (int) (m11 * 0.05);
+
+		int m12 = projectSer.projectTotal(YEAR + "/12");
+		int m12f = (int) (m12 * 0.05);
+
+		mav.addObject("m2f",m2f);
+		mav.addObject("m3f", m3f);
+		mav.addObject("m4f", m4f);
+		mav.addObject("m5f", m5f);
+		mav.addObject("m6f", m6f);
+		mav.addObject("m7f", m7f);
+		mav.addObject("m8f", m8f);
+		mav.addObject("m9f", m9f);
+		mav.addObject("m10f", m10f);
+		mav.addObject("m11f", m11f);
+		mav.addObject("m12f", m12f);
+
+		return mav;
+	}
+
 	// 회원 수 통계 화면
 	@RequestMapping(value = "userStatistics.do")
 	public ModelAndView userStatic(Locale locale, Model model) {
@@ -76,16 +164,7 @@ public class ProjectController {
 		return mav;
 	}
 
-	//중개수수료 관리
-	@RequestMapping(value = "manageFees.do")
-	public ModelAndView manageFees(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin_views/fee/manage_fees");
-		mav = setTop(mav);
-		return mav;
-	}
-	
-	//프리미엄등급 구독료 관리
+	// 프리미엄등급 구독료 관리
 	@RequestMapping(value = "manage_subscription_fee.do")
 	public ModelAndView manage_subscription_fee(Locale locale, Model model) {
 		ModelAndView mav = new ModelAndView();
@@ -93,7 +172,7 @@ public class ProjectController {
 		mav = setTop(mav);
 		return mav;
 	}
-	
+
 	// 프로젝트 등록 화면
 	@RequestMapping(value = "projectReg.do")
 	public ModelAndView projectReg(Locale locale, Model model) {

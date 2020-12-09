@@ -37,6 +37,21 @@
 	</select>
 	
 	
+	<!-- 이번년도 이번달 프로젝트 총액 -->
+	<select id="getProjectTotal" parameterType="String" resultType="int">
+		select sum(project_budget)
+		from free_project
+		where to_char(project_end_date,'YY/MM') = #{yearMonth}
+	</select>
+	
+	<!-- 이번년도 이번달 진행중인 프로젝트 총액 -->
+	<select id="getProjectingTotal" parameterType="String" resultType="ProjectDTO">
+		select project_subject, user_id, project_budget, project_end_date
+		from free_project
+		where to_char(project_end_date,'YY/MM') = #{yearMonth} AND project_status = 0
+		order by project_budget desc
+	</select>
+	
 	<!-- 게시글 등록 -->
 	<insert id="boardWrite">
 		INSERT INTO FREE_BBS(BBS_IDX, USER_ID, BBS_MAIN_KATEGORY, BBS_SUBJECT, BBS_CONTENT

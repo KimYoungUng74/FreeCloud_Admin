@@ -20,6 +20,18 @@ public class ProjectService {
 	@Autowired
 	public ProjectDAO dao;
 
+	// 이번달 프로젝트 총액
+	public int projectTotal(String YearMonth) {
+		return dao.projectTotal(YearMonth);
+
+	}
+
+	// 이번달 진행중인 프로젝트 총액
+	public List<ProjectDTO> projectingTotal(String YearMonth) {
+		return dao.projectingTotal(YearMonth); 
+
+	}
+
 	// 게시글 등록
 	public void projectWrite(ProjectDTO dto) {
 		dao.projectWrite(dto); // 게시글 등록

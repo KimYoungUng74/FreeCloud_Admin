@@ -136,6 +136,18 @@ public class ProjectDAO {
 		return mybatis.selectList("BoardMapper.getWDMKDADDR", map);
 	}
 
+	//이번달 프로젝트 총액
+	public int projectTotal(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("BoardMapper.getProjectTotal", yearMonth);
+	}
+
+	//이번달 진행중 프로젝트 총액
+	public List<ProjectDTO> projectingTotal(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("BoardMapper.getProjectingTotal", yearMonth);
+	}
+
 	/*
 	 * // 전부 선택 public List<ProjectDTO> getAll(Map<String, Object> map) { //return
 	 * mybatis.selectList("BoardMapper.getAll", map); }

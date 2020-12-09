@@ -19,6 +19,7 @@ public class ProjectDTO {
 	private String PROJECT_IMAGE_PATH;
 	private int PROJECT_STATUS;
 	private int PROJECT_VIEWS;
+	
 	public int getPROJECT_IDX() {
 		return PROJECT_IDX;
 	}

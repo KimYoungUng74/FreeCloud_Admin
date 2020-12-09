@@ -512,7 +512,7 @@
 									<div
 										style="width: 90%; height: 90%; border: 1px solid #D3D3D3; padding: 10px;">
 										
-										<label style="font-size: 15px; color: gray;"> 2020년 11월 중개수수료 관리
+										<label style="font-size: 15px; color: gray;"> ${year }년 ${month}월 중개수수료 관리
 										</label>
 										
 										<br>
@@ -521,9 +521,9 @@
 										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">순수익</span>
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
+										<input type="text" style="width: 30%; text-align: center;" value="${total }" readonly="readonly">
+										<input type="text" style="width: 30%; text-align: center;" value="${payment }" readonly="readonly">
+										<input type="text" style="width: 30%; text-align: center;" value="${profit }" readonly="readonly">
 										</p>
 										
 										<div class="table-responsive" id="checkout-review-table-wrapper">
@@ -540,77 +540,24 @@
 										</thead>
 
 										<tbody>
+												<c:forEach var="row" items="${list }" varStatus="status">
+															<tr>
+																<td><h3>${status.count}</h3></td>
+																
+																<td style="text-align: center;">
+																	<a href="#">${row.PROJECT_SUBJECT }</a>
+																</td>
+																
+																<td><h3 class="product-name"><a href="#">${row.USER_ID}</a></h3></td>
+																	
+																<td>${row.PROJECT_BUDGET}</td>
+																
+																<td><span class="cart-price"><span
+																		class="check-price">${row.PROJECT_END_DATE }</span></span></td>
+																
+															</tr>
+												</c:forEach>
 
-											<tr>
-												<td><h3>45</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=45">완료게시글1</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>12.000.000</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>44</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=44">완료게시글2</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>17.000.000</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>43</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=43">완료게시글3</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>15.000.000</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>42</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=42">완료게시글4</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>20.000.000</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>41</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=41">완료게시글5 </a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>100.000.000<d>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-											
-											
 										</tbody>
 
 									</table>
@@ -910,8 +857,8 @@
 		    categories: ['1월', '2월', '3월', '4월', '5월', '6월','7월', '8월', '9월', '10월', '11월', '12월'],
 		    series: [
 		        {
-		            name: '중개수수료 수익(천만원)',
-		            data: [500, 600, 873, 1235, 6377, 7685, 7599, 6466, 7777, 8000, 8888,9999]
+		            name: '중개수수료 수익',
+		            data: [${m1f }, ${m2f }, ${m3f }, ${m4f }, ${m5f }, ${m6f }, ${m7f }, ${m8f }, ${m9f }, ${m10f }, ${m11f }, ${m12f }]
 		        }
 		        
 		    ]
