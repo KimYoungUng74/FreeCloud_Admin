@@ -21,6 +21,8 @@ public class UserDTO {
 	    private int FREELANCER_PUBLIC;	// 유저 정보 공개 여부
 	    private int USER_GRANT;	// 유저 권한
 	    private String USER_EDU; // 유저 학력
+	    private int IS_RESTRAINT;	// 유저 권한
+	    private String WHY_RESTRAINT; // 유저 학력
 	    
 		public String getUSER_ID() {
 			return USER_ID;
@@ -141,6 +143,18 @@ public class UserDTO {
 					+ FREELANCER_CAREER + ", FREELANCER_CERTIFICATE=" + FREELANCER_CERTIFICATE
 					+ ", FREELANCER_IMAGE_PATH=" + FREELANCER_IMAGE_PATH + ", FREELANCER_PUBLIC=" + FREELANCER_PUBLIC
 					+ ", USER_GRANT=" + USER_GRANT + ", USER_EDU=" + USER_EDU + "]";
+		}
+		public int getIS_RESTRAINT() {
+			return IS_RESTRAINT;
+		}
+		public void setIS_RESTRAINT(int iS_RESTRAINT) {
+			IS_RESTRAINT = iS_RESTRAINT;
+		}
+		public String getWHY_RESTRAINT() {
+			return WHY_RESTRAINT;
+		}
+		public void setWHY_RESTRAINT(String wHY_RESTRAINT) {
+			WHY_RESTRAINT = wHY_RESTRAINT;
 		}
 		
 	

@@ -315,5 +315,14 @@
 		WHERE FREELANCER_MAIN_KATEGORY=#{FREELANCER_MAIN_KATEGORY}
 		AND FREELANCER_PUBLIC=1
 	</select>
+	
+	<!--제재 리스트 -->
+	<select id="RestraintList" resultType="UserDTO"  parameterType="String" >
+		SELECT
+		USER_ID,
+		WHY_RESTRAINT
+		FROM FREE_USER 
+		WHERE IS_RESTRAINT=1
+	</select>
 
 </mapper>
