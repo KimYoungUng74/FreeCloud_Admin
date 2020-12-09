@@ -276,7 +276,7 @@
 													</h3></td>
 												<!-- sub total starts here -->
 												<td><span class="cart-price"><span
-														class="check-price">2020-12-08</span></span></td>
+														class="check-price">2020-12-10</span></span></td>
 												<td>제재중</td>
 											</tr>
 											</c:forEach>

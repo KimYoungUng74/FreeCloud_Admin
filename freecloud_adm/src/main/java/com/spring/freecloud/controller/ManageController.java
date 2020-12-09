@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.freecloud.dto.InquireDTO;
+import com.spring.freecloud.dto.ProjectDTO;
 import com.spring.freecloud.dto.UserDTO;
 import com.spring.freecloud.service.EtcService;
 import com.spring.freecloud.service.UserService;
@@ -75,7 +76,67 @@ public class ManageController {
 		mav = setTop(mav);
 		return mav;
 	}
+	
+	// 제재내역
+		@RequestMapping(value = "restraint.do")
+		public ModelAndView restraint(Locale locale, Model model, UserDTO dto) {
+			List<UserDTO> list = null; // 제재내역
+			
+			list = userSer.restraintList();
+			
+			System.out.println(dto.getWHY_RESTRAINT());
+			
+			if (1 == userSer.restraint(dto)) {
+				System.out.println("제재 되었음");
+			} else {
+				System.out.println("제재 실패");
+			}
+			
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("admin_views/users/user_sanctions");
+			mav.addObject("list", list); // 제재내역
+			mav = setTop(mav);
+			return mav;
+		}
+	
+	@RequestMapping(value = "usersearch.do")
+	public ModelAndView usersearch(Locale locale, Model model, String search) {
 
+		List<UserDTO> userList = null;
+		userList = userSer.UserList(search);
+		
+ 		//System.out.println(userList); 
+		
+		ModelAndView mav = new ModelAndView();
+		mav = setTop(mav);
+		mav.setViewName("admin_views/search/user_search_result");
+		
+		mav.addObject("list", userList);
+		return mav;
+	}
+	
+	@RequestMapping(value = "user_info.do")
+	public ModelAndView user_info(Locale locale, Model model, String userID) {
+		
+		List<ProjectDTO> ingList = null; // 진행중인 프로젝트
+		List<ProjectDTO> edList = null; // 완료한 프로젝트
+		String myprofile = userSer.myProfile(userID); // 프로필 사진 가져오기
+		ingList = userSer.ingMyProject(userID); // 진행중인 프로젝트 - 의뢰
+		edList = userSer.edMyProject(userID);  // 완료한 프로젝트 - 의뢰
+		
+		System.out.println("user_info에 접근함");
+		UserDTO dto = new UserDTO();
+		dto = userSer.myInfo(userID);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("ingList", ingList);
+		mav.addObject("edList", edList);
+		mav.addObject("myprofile", myprofile);
+		mav.addObject("dto", dto);
+		mav = setTop(mav);
+		mav.setViewName("admin_views/users/user_info");
+		return mav;
+	}
 	// 상단 배너
 	ModelAndView setTop(ModelAndView mav) {
 		int regProject = 0;

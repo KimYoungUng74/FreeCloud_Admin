@@ -231,7 +231,6 @@
 	<div class="shopping-area section-padding">
 		<div class="container">
 			<div class="row">
-				<form action="myInfoModify.do" method="post" id="infoForm">
 					<div class="col-md-3 col-sm-3 col-xs-12" style="font-size: 20px">
 						<div class="row shop-widget">
 							<div class="basic_btn" style="width: 100%">
@@ -254,12 +253,11 @@
 							style="width: 100%; height: 100%; border: 1px solid #D3D3D3; padding: 10px;">
 							<div class="row">
 								<div class="col-md-12">
+								
 									<p>
 										<label> 유저검색&nbsp;&nbsp;&nbsp;&nbsp; </label> 
-										<input name="USER_ID">
-										
-									
-									
+								<form action="usersearch.do">
+										<input name="search">
 									<button name="submitcreate" id="submitcreate" type="submit" class="btn-default">
                                     <span>
                                         <i class="fa fa-search left"></i>
@@ -267,13 +265,13 @@
                                     </span>
                                 	</button>
                                 	</p>
+                                </form>
 								</div>
 								
 								
 							</div>
 						</div>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>
