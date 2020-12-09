@@ -65,245 +65,7 @@
 <script
 	src="<c:url value='resources/writer/js/vendor/modernizr-2.8.3.min.js'/>"></script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		//프로필 바꾸기
-		$('#CHANGE')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('file', $('#file')[0].files[0]);
-							formData.append('originalProfile', $(
-									'#originalProfile').val());
-							$
-									.ajax({
-										type : "POST",
-										url : "fileUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var test = "<img alt=\"\"src=\"<c:url value='http://localhost:8181/img/profile/"
-														+ $.trim(data)
-														+ "'/>\">";
-												$('#profile').html(test);
-												$('#profileClose').click();
 
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		// 비밀번호 확인				
-		$(function() {
-			//비밀번호 확인
-			$('#myPass').click(function() {
-
-				$.ajax({
-					type : "POST",
-					url : "checkMyPass.do",
-					data : {
-						"pw" : $('#myPassCheck').val()
-					},
-					success : function(data) { //data : seekPw에서 넘겨준 결과값(pw)
-						if (data == "Not_Match") {
-							alert("비밀번호가 일치하지 않습니다.");
-						} else {
-							$('#infoForm').submit();
-						}
-					}
-				})
-			})
-
-		});
-
-		// 포트폴리오 전송
-		$('#portfolioBtn')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('portfolio',
-									$('#myPortfolio')[0].files[0]);
-
-							$
-									.ajax({
-										type : "POST",
-										url : "myPortfolioUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var idx = data.indexOf("_") + 1;
-												var test = "<div><a href='${path}/upload/displayFile?fileName="
-														+ data
-														+ "'>"
-														+ data.substr(idx)
-														+ "</a><span data-src="+data+">[삭제]</span></div>";
-												$('#portfolio').html(test);
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		$("#portfolio").on("click", "span", function(event) {
-			var that = $(this); // 여기서 this는 클릭한 span태그
-			$.ajax({
-				url : "myPortfolioDeleteAjax.do",
-				type : "post",
-				// data: "fileName="+$(this).attr("date-src") = {fileName:$(this).attr("data-src")}
-				// 태그.attr("속성")
-				data : {
-					fileName : $(this).attr("data-src")
-				}, // json방식
-				dataType : "text",
-				success : function(result) {
-					if (result == "deleted") {
-						// 클릭한 span태그가 속한 div를 제거
-						that.parent("div").remove();
-					}
-				}
-			});
-		})
-	});
-</script>
-<script type="text/javascript">
-	$(function() {
-
-		$('#CATAGORY1')
-				.change(
-						function() {
-							$('#CATAGORY2').children('option').remove();
-							if ($("#CATAGORY1 option:selected").val() == "") {
-								num = new Array("중분류 선택");
-								vnum = new Array("");
-							} else if ($("#CATAGORY1 option:selected").val() == "design") {
-								num = new Array("웹", "제품", "프리젠테이션", "인쇄물",
-										"커머스, 쇼핑몰", "로고", "그래픽", "영상", "게임",
-										"기타");
-								vnum = new Array("WEB", "PRODUCT", "PRE",
-										"PRINT", "SHOP", "LOGO", "GRAPHIC",
-										"VIDEO", "GAME", "OTHER");
-							} else if ($("#CATAGORY1 option:selected").val() == "devel") {
-								num = new Array("웹", "애플리케이션", "워드프로세스",
-										"퍼블리싱", "일반 소프트웨어", "커머스, 쇼핑몰", "게임",
-										"임베디드", "기타");
-								vnum = new Array("WEB", "APP", "WORD", "PUB",
-										"SOFT", "SHOP", "GAME", "IMB", "OTHER");
-							}
-
-							for (var i = 0; i < num.length; i++) {
-								$("#CATAGORY2").append(
-										"<option value='"+vnum[i]+"'>" + num[i]
-												+ "</option>");
-							}
-						})
-
-		$('#skillBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						$('#mySkill').val($('#skillInput').val());
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								alert("이미 등록된 보유기술입니다.");
-								return;
-							}
-						}
-						$('#mySkill').val(
-								$('#mySkill').val() + ","
-										+ $('#skillInput').val());
-						$('#skillInput').val("");
-					}
-				})
-
-		$('#skillDeleteBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						alert("제거할 보유기술이 없습니다.");
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						$('#mySkill').val("");
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								continue;
-							} else {
-								if ($('#mySkill').val() == "") {
-									$('#mySkill').val(newMySkill[i]);
-								} else {
-									$('#mySkill').val(
-											$('#mySkill').val() + ","
-													+ newMySkill[i]);
-								}
-
-							}
-						}
-						$('#skillInput').val("");
-					}
-				})
-		$('#licenseBtn').click(
-				function() {
-					if ($('#myLicense').val() == ""
-							&& !($('#licenseInput').val() == "")) {
-						$('#myLicense').val($('#licenseInput').val());
-					} else {
-
-						var oldMySkill = $('#myLicense').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#licenseInput').val() == newMySkill[i]) {
-								alert("이미 등록된 자격증입니다.");
-								return;
-							}
-						}
-						$('#myLicense').val(
-								$('#myLicense').val() + ","
-										+ $('#licenseInput').val());
-						$('#licenseInput').val("");
-					}
-				})
-		$('#licenseDeleteBtn').click(
-				function() {
-					if ($('#myLicense').val() == "") {
-						alert("제거할 자격증이 없습니다.");
-					} else {
-						var oldMyLicense = $('#myLicense').val();
-						var newMyLicense = oldMyLicense.split(',');
-						$('#myLicense').val("");
-						for ( var i in newMyLicense) {
-							if ($('#licenseInput').val() == newMyLicense[i]) {
-								continue;
-							} else {
-								if ($('#myLicense').val() == "") {
-									$('#myLicense').val(newMyLicense[i]);
-								} else {
-									$('#myLicense').val(
-											$('#myLicense').val() + ","
-													+ newMyLicense[i]);
-								}
-
-							}
-						}
-						$('#licenseInput').val("");
-					}
-				})
-
-	});
-</script>
 
 </head>
 <body>
@@ -472,18 +234,15 @@
 						<div class="row shop-widget">
 
 							<div class="basic_btn" style="width: 100%">
-								<a href="#" title="Quick view" data-toggle="modal"
-									data-target="#pwDialog">회원 정보 조회</a>
+								<a href="userManage.do">회원 정보 조회</a>
 							</div>
-
+							
 							<div class="basic_btn" style="width: 100%">
-								<a href="#" title="Quick view" data-toggle="modal"
-									data-target="#pwDialog">문의 내역 관리</a>
+								<a href="inquireManage.do">문의 내역 관리</a>
 							</div>
-
+							
 							<div class="basic_btn" style="width: 100%">
-								<a href="#" title="Quick view" data-toggle="modal"
-									data-target="#pwDialog">제재 내역 관리</a>
+								<a href="restraintManage.do">제재 내역 관리</a>
 							</div>
 							<br>
 
@@ -491,85 +250,8 @@
 					</div>
 				</form>
 				<div class="col-md-9 col-sm-9 col-xs-12" style="font-size: 20px;">
-					<div class="shopping-area section-padding">
 						<div class="container">
 							<div class="row">
-
-
-								<div class="shop-tab-area">
-									<div class="shop-tab-list">
-										<div class="shop-tab-pill pull-left"></div>
-										<div class="shop-tab-pill pull-right">
-											<ul>
-												<li class="product-size-deatils">
-													<div class="show-label">
-														<label>Show : </label> <select id="cntPerPage" name="sel"
-															onchange="selChange()">
-															<option value="5" selected="">5</option>
-															<option value="10">10</option>
-															<option value="15">15</option>
-															<option value="20">20</option>
-														</select>
-													</div>
-												</li>
-
-
-
-
-
-												<b><li class="shop-pagination">1</li></b>
-
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=2&amp;cntPerPage=5"><li
-													class="shop-pagination">2</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=3&amp;cntPerPage=5"><li
-													class="shop-pagination">3</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=4&amp;cntPerPage=5"><li
-													class="shop-pagination">4</li></a>
-
-
-
-
-
-
-												<a href="boardList.do?nowPage=5&amp;cntPerPage=5"><li
-													class="shop-pagination">5</li></a>
-
-
-
-
-												<a href="boardList.do?nowPage=6&amp;cntPerPage=5"><i
-													class="fa fa-caret-right"></i></a>
-
-											</ul>
-										</div>
-									</div>
-									<div class="tab-content">
-										<!-- Grid 형으로 글 목록 출력 -->
-
-
-
-										<!-- List 형으로 글 목록 출력 -->
-
-									</div>
-								</div>
 
 								<!-- 테이블 시작 -->
 								<div class="table-responsive" id="checkout-review-table-wrapper">
@@ -589,22 +271,22 @@
 										<tbody>
 
 											<tr>
-												<td><h3>45</h3></td>
+												<td><h3>5</h3></td>
 												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=45">문의합니다.</a>
+														<a href="inquireManageRep.do?TITLE=치명적인 오류를 발견했습니다.&CATEGORY=오류">치명적인 오류를 발견했습니다.</a>
 													</h3></td>
 												<td><span class="cart-price"><span
 														class="check-price">opq</span></span></td>
 												<td>오류</td>
 												<!-- sub total starts here -->
 												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
+														class="check-price">2020-12-09</span></span></td>
 												<td>0</td>
 											</tr>
 
 
 											<tr>
-												<td><h3>44</h3></td>
+												<td><h3>4</h3></td>
 												<td><h3 class="product-name">
 														<a href="boardView.do?BBS_IDX=44">문의</a>
 													</h3></td>
@@ -613,33 +295,33 @@
 												<td>버그</td>
 												<!-- sub total starts here -->
 												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
+														class="check-price">2020-11-29</span></span></td>
 												<td>0</td>
 											</tr>
 
 
 											<tr>
-												<td><h3>43</h3></td>
+												<td><h3>3</h3></td>
 												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=43">문의!!</a>
+														<a href="boardView.do?BBS_IDX=43">사장님이 이상해요!!!!</a>
 													</h3></td>
 												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
+														class="check-price">free_d</span></span></td>
 												<td>문의</td>
 												<!-- sub total starts here -->
 												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
+														class="check-price">2020-10-08</span></span></td>
 												<td>0</td>
 											</tr>
 
 
 											<tr>
-												<td><h3>42</h3></td>
+												<td><h3>2</h3></td>
 												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=42">문의문의</a>
+														<a href="boardView.do?BBS_IDX=42">문의할꼬야</a>
 													</h3></td>
 												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
+														class="check-price">vwx</span></span></td>
 												<td>질문</td>
 												<!-- sub total starts here -->
 												<td><span class="cart-price"><span
@@ -649,9 +331,9 @@
 
 
 											<tr>
-												<td><h3>41</h3></td>
+												<td><h3>1</h3></td>
 												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=41">문의해요 </a>
+														<a href="boardView.do?BBS_IDX=41">오류 크크루 삥뽕</a>
 													</h3></td>
 												<td><span class="cart-price"><span
 														class="check-price">opq</span></span></td>
@@ -673,21 +355,12 @@
 
 							</div>
 							<div class="submit" style="display: inline; float: right;">
-
-								<button name="pReg" id="pReg" type="button"
-									onclick="location.href ='boardReg.do'" class="btn-default"
-									style="width: 100%">
-									<span> <i class="fa fa-user left"></i> 혹시 사용하게 될 버튼
-									</span>
-								</button>
-
 							</div>
 						</div>
 
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 	<!-- Shop Area End -->
 	<!-- Footer Area Start -->

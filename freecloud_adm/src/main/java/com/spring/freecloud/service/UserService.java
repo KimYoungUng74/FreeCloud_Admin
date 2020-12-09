@@ -221,4 +221,9 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return dao.UserListALL(FREELANCER_MAIN_KATEGORY);
 	}
+
+	public List<UserDTO> restraintList() {
+		// TODO Auto-generated method stub
+		return dao.restraintList();
+	}
 }

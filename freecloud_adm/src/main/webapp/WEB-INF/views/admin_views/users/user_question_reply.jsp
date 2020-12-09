@@ -68,240 +68,10 @@
 <script type="text/javascript">
 	$(function() {
 		//프로필 바꾸기
-		$('#CHANGE')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('file', $('#file')[0].files[0]);
-							formData.append('originalProfile', $(
-									'#originalProfile').val());
-							$
-									.ajax({
-										type : "POST",
-										url : "fileUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var test = "<img alt=\"\"src=\"<c:url value='http://localhost:8181/img/profile/"
-														+ $.trim(data)
-														+ "'/>\">";
-												$('#profile').html(test);
-												$('#profileClose').click();
-
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		// 비밀번호 확인				
-		$(function() {
-			//비밀번호 확인
-			$('#myPass').click(function() {
-
-				$.ajax({
-					type : "POST",
-					url : "checkMyPass.do",
-					data : {
-						"pw" : $('#myPassCheck').val()
-					},
-					success : function(data) { //data : seekPw에서 넘겨준 결과값(pw)
-						if (data == "Not_Match") {
-							alert("비밀번호가 일치하지 않습니다.");
-						} else {
-							$('#infoForm').submit();
-						}
-					}
-				})
-			})
-
+		$('#pReg').click(function() {
+			alert("답변이 등록되었습니다.");
+			location.href = "inquireManage.do";
 		});
-
-		// 포트폴리오 전송
-		$('#portfolioBtn')
-				.click(
-						function() {
-							// ajax로 전달할 폼 객체
-							var formData = new FormData();
-							// 폼 객체에 파일추가, append("변수명", 값)
-							formData.append('portfolio',
-									$('#myPortfolio')[0].files[0]);
-
-							$
-									.ajax({
-										type : "POST",
-										url : "myPortfolioUploadAjax.do",
-										data : formData,
-										dataType : "text",
-										processData : false,
-										contentType : false,
-										success : function(data) { //data : checkId에서 넘겨준 결과값
-											if ($.trim(data) != "Fail") {
-												var idx = data.indexOf("_") + 1;
-												var test = "<div><a href='${path}/upload/displayFile?fileName="
-														+ data
-														+ "'>"
-														+ data.substr(idx)
-														+ "</a><span data-src="+data+">[삭제]</span></div>";
-												$('#portfolio').html(test);
-											} else {
-												alert("실패");
-											}
-										}
-									})
-						})
-
-		$("#portfolio").on("click", "span", function(event) {
-			var that = $(this); // 여기서 this는 클릭한 span태그
-			$.ajax({
-				url : "myPortfolioDeleteAjax.do",
-				type : "post",
-				// data: "fileName="+$(this).attr("date-src") = {fileName:$(this).attr("data-src")}
-				// 태그.attr("속성")
-				data : {
-					fileName : $(this).attr("data-src")
-				}, // json방식
-				dataType : "text",
-				success : function(result) {
-					if (result == "deleted") {
-						// 클릭한 span태그가 속한 div를 제거
-						that.parent("div").remove();
-					}
-				}
-			});
-		})
-	});
-</script>
-<script type="text/javascript">
-	$(function() {
-
-		$('#CATAGORY1')
-				.change(
-						function() {
-							$('#CATAGORY2').children('option').remove();
-							if ($("#CATAGORY1 option:selected").val() == "") {
-								num = new Array("중분류 선택");
-								vnum = new Array("");
-							} else if ($("#CATAGORY1 option:selected").val() == "design") {
-								num = new Array("웹", "제품", "프리젠테이션", "인쇄물",
-										"커머스, 쇼핑몰", "로고", "그래픽", "영상", "게임",
-										"기타");
-								vnum = new Array("WEB", "PRODUCT", "PRE",
-										"PRINT", "SHOP", "LOGO", "GRAPHIC",
-										"VIDEO", "GAME", "OTHER");
-							} else if ($("#CATAGORY1 option:selected").val() == "devel") {
-								num = new Array("웹", "애플리케이션", "워드프로세스",
-										"퍼블리싱", "일반 소프트웨어", "커머스, 쇼핑몰", "게임",
-										"임베디드", "기타");
-								vnum = new Array("WEB", "APP", "WORD", "PUB",
-										"SOFT", "SHOP", "GAME", "IMB", "OTHER");
-							}
-
-							for (var i = 0; i < num.length; i++) {
-								$("#CATAGORY2").append(
-										"<option value='"+vnum[i]+"'>" + num[i]
-												+ "</option>");
-							}
-						})
-
-		$('#skillBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						$('#mySkill').val($('#skillInput').val());
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								alert("이미 등록된 보유기술입니다.");
-								return;
-							}
-						}
-						$('#mySkill').val(
-								$('#mySkill').val() + ","
-										+ $('#skillInput').val());
-						$('#skillInput').val("");
-					}
-				})
-
-		$('#skillDeleteBtn').click(
-				function() {
-					if ($('#mySkill').val() == "") {
-						alert("제거할 보유기술이 없습니다.");
-					} else {
-						var oldMySkill = $('#mySkill').val();
-						var newMySkill = oldMySkill.split(',');
-						$('#mySkill').val("");
-						for ( var i in newMySkill) {
-							if ($('#skillInput').val() == newMySkill[i]) {
-								continue;
-							} else {
-								if ($('#mySkill').val() == "") {
-									$('#mySkill').val(newMySkill[i]);
-								} else {
-									$('#mySkill').val(
-											$('#mySkill').val() + ","
-													+ newMySkill[i]);
-								}
-
-							}
-						}
-						$('#skillInput').val("");
-					}
-				})
-		$('#licenseBtn').click(
-				function() {
-					if ($('#myLicense').val() == ""
-							&& !($('#licenseInput').val() == "")) {
-						$('#myLicense').val($('#licenseInput').val());
-					} else {
-
-						var oldMySkill = $('#myLicense').val();
-						var newMySkill = oldMySkill.split(',');
-						for ( var i in newMySkill) {
-							if ($('#licenseInput').val() == newMySkill[i]) {
-								alert("이미 등록된 자격증입니다.");
-								return;
-							}
-						}
-						$('#myLicense').val(
-								$('#myLicense').val() + ","
-										+ $('#licenseInput').val());
-						$('#licenseInput').val("");
-					}
-				})
-		$('#licenseDeleteBtn').click(
-				function() {
-					if ($('#myLicense').val() == "") {
-						alert("제거할 자격증이 없습니다.");
-					} else {
-						var oldMyLicense = $('#myLicense').val();
-						var newMyLicense = oldMyLicense.split(',');
-						$('#myLicense').val("");
-						for ( var i in newMyLicense) {
-							if ($('#licenseInput').val() == newMyLicense[i]) {
-								continue;
-							} else {
-								if ($('#myLicense').val() == "") {
-									$('#myLicense').val(newMyLicense[i]);
-								} else {
-									$('#myLicense').val(
-											$('#myLicense').val() + ","
-													+ newMyLicense[i]);
-								}
-
-							}
-						}
-						$('#licenseInput').val("");
-					}
-				})
-
 	});
 </script>
 
@@ -335,7 +105,7 @@
 										<li><a href="userManage.do">회원정보 관리</a></li>
 										<li><a href="inquireManage.do">문의내역 관리</a></li>
 										<li><a href="restraintManage.do">제재내역 관리</a></li>
-									</ul></li>
+									</ul></li> 
 								<li><h4>
 										<a href="projectSearch.do">수익 관리</a>
 									</h4>
@@ -473,16 +243,13 @@
 						<div class="shop-select" style="display: inline; width: 25%;">
 							<label><b>카테고리&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>
 							<select name="BBS_MAIN_KATEGORY" id="BBS_MAIN_KATEGORY" style="width: 25%">
-								<option hidden="" value="none">분류</option>
-								<option value="오류">오류</option>
-								<option value="버그">버그</option>
-								<option value="기타">기타</option>
+								<option value="오류" selected="selected">${CATEGORY}</option>
 							</select>
 						</div>		
 						
 						<p class="form-row">
 							<b>제목</b><b></b><label for="subMessage" id="subMessage"></label> <br>
-							<br> <input type="text" name="BBS_SUBJECT" id="BBS_SUBJECT" placeholder="제목" onkeyup="subCheck()">
+							<br> <input type="text" name="BBS_SUBJECT" readonly="readonly" id="BBS_SUBJECT" onkeyup="subCheck()" value="${TITLE}">
 						</p>
 
 						<p>
@@ -490,7 +257,7 @@
 						</p>
 
 						<p class="form-row order-notes">
-							<textarea name="BBS_CONTENT" id="BBS_CONTENT" placeholder="상세 내용" onkeyup="conCheck()"></textarea>
+							<textarea name="BBS_CONTENT" readonly="readonly" id="BBS_CONTENT" onkeyup="conCheck()">문의합니다 문의해요 문의할꺼에요 문의할꺼야 이상해 문의할꼬임!문의합니다 문의해요 문의할꺼에요 문의할꺼야 이상해 문의할꼬임!</textarea>
 						</p>
 						
 						<p>
@@ -504,7 +271,7 @@
 						<br>					
 						<div class="submit" style="display: inline;">
 							
-							<button name="pCancle" id="pCancle" type="button" class="btn-default" style="width:51%">
+							<button name="pCancle" id="pCancle" type="button" class="btn-default" style="width:51%" onclick="history.go(-1)">
 								<span> <i class="fa fa-user left"></i> 취소
 								</span>
 							</button>
@@ -513,7 +280,7 @@
 						
 						<div class="submit" style="display: inline;">
 							
-							<button name="pReg" id="pReg" type="button" onclick="fCheck()" class="btn-default" style="width:48%">
+							<button name="pReg" id="pReg" type="button" class="btn-default" style="width:48%">
 								<span> <i class="fa fa-user left"></i> 등록
 								</span>
 							</button>

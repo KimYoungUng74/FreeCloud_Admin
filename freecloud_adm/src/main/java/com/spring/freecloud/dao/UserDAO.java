@@ -207,4 +207,9 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		return mybatis.selectList("UserMapper.UserListALL", FREELANCER_MAIN_KATEGORY);
 	}
+
+	public List<UserDTO> restraintList() {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("UserMapper.RestraintList");
+	}
 }
