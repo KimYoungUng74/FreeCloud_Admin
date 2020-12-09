@@ -255,7 +255,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<p>
-										<label> 유저아이디&nbsp;&nbsp;&nbsp;&nbsp; </label> 
+										<label> 유저검색&nbsp;&nbsp;&nbsp;&nbsp; </label> 
 										<input name="USER_ID">
 										
 									
