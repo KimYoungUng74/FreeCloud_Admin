@@ -521,9 +521,9 @@
 										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">순수익</span>
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%; text-align: center;" value="${total }" readonly="readonly">
-										<input type="text" style="width: 30%; text-align: center;" value="${payment }" readonly="readonly">
-										<input type="text" style="width: 30%; text-align: center;" value="${profit }" readonly="readonly">
+										<input type="text" style="width: 30%; text-align: center;" value="${total } 원" readonly="readonly">
+										<input type="text" style="width: 30%; text-align: center;" value="${payment } 원" readonly="readonly">
+										<input type="text" style="width: 30%; text-align: center;" value="${profit } 원" readonly="readonly">
 										</p>
 										
 										<div class="table-responsive" id="checkout-review-table-wrapper">
@@ -550,7 +550,7 @@
 																
 																<td><h3 class="product-name"><a href="#">${row.USER_ID}</a></h3></td>
 																	
-																<td>${row.PROJECT_BUDGET}</td>
+																<td>${row.PROJECT_BUDGET} 원</td>
 																
 																<td><span class="cart-price"><span
 																		class="check-price">${row.PROJECT_END_DATE }</span></span></td>

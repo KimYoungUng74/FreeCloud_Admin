@@ -511,7 +511,7 @@
 									<div
 										style="width: 90%; height: 90%; border: 1px solid #D3D3D3; padding: 10px;">
 										
-										<label style="font-size: 15px; color: gray;"> 2020년 11월 05일 회원 수 통계
+										<label style="font-size: 15px; color: gray;"> 20${year }년 ${month }월 회원 수 통계
 										</label>
 										
 										<br>
@@ -522,9 +522,9 @@
 										
 										<p style="font-size: 21px;">
 										
-										<input type="text" style="width: 30%; text-align: center;" value="80명">
-										<input type="text" style="width: 30%; text-align: center;" value="20명">
-										<input type="text" style="width: 30%; text-align: center;" value="3명">
+										<input type="text" style="width: 30%; text-align: center;" value="${nc }">
+										<input type="text" style="width: 30%; text-align: center;" value="${fc }">
+										<input type="text" style="width: 30%; text-align: center;" value="${oc }">
 										</p>
 										
 										
@@ -823,15 +823,15 @@
 		    series: [
 		        {
 		            name: '일반회원(명)',
-		            data: [4000, 5000, 3000, 5000, 7000, 6000, 4000, 1000, 4000, 5000, 3000, 5000]
+		            data: [${m1}, ${m2}, ${m3}, ${m4}, ${m5}, ${m6}, ${m7}, ${m8}, ${m9}, ${m10}, ${m11}, ${m12}]
 		        },
 		        {
 		            name: '프리랜서(명)',
-		            data: [7000, 8000, 1000, 7000, 2000, 7000, 3000, 5000, 7000, 8000, 1000, 7000]
+		            data: [${n1}, ${n2}, ${n3}, ${n4}, ${n5}, ${n6}, ${n7}, ${n8}, ${n9}, ${n10}, ${n11}, ${n12}]
 		        },
 		        {
 		            name: '탈퇴한 회원(명)',
-		            data: [-5000, -4000, -4000, -6000, -3000, -4000, -5000, -7000, -3000, -4000, -4000, -6000]
+		            data: [${o1}, ${o2}, ${o3}, ${o4}, ${o5}, ${o6}, ${o7}, ${o8}, ${o9}, ${o10}, ${o11}, ${o12}]
 		        }
 		    ]
 		};
@@ -840,15 +840,15 @@
 		        width: 700,
 		        height: 650,
 		        title: '월별 회원 통계',
-		        format: '1,000'
+		        format: '1'
 		    },
 		    yAxis: {
 		        title: 'Month'
 		    },
 		    xAxis: {
 		        title: 'Amount',
-		        min: -10000,
-		        max: 10000
+		        min: -3,
+		        max: 3
 		    },
 		    series: {
 		        showLabel: true

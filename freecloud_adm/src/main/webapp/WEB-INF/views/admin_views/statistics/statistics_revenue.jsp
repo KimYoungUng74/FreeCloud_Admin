@@ -512,7 +512,7 @@
 									<div
 										style="width: 90%; height: 90%; border: 1px solid #D3D3D3; padding: 10px;">
 										
-										<label style="font-size: 15px; color: gray;"> 2020년 11월 수익 관리
+										<label style="font-size: 15px; color: gray;"> ${year }20년 ${month }월 수익 관리
 										</label>
 										
 										<br>
@@ -521,9 +521,9 @@
 										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">총 수입</span>
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%; text-align: center;" value="80.000.000원">
-										<input type="text" style="width: 30%; text-align: center;" value="40.000.000원">
-										<input type="text" style="width: 30%; text-align: center;" value="120.000.000원">
+										<input type="text" style="width: 30%; text-align: center;" value="${profit } 원">
+										<input type="text" style="width: 30%; text-align: center;" value="${sub_total } 원">
+										<input type="text" style="width: 30%; text-align: center;" value="${total } 원">
 										</p>
 										
 										
@@ -821,15 +821,15 @@
 	    series: [
 	        {
 	            name: '총 수입(만원)',
-	            data: [2000, 4000, 6000, 8000, 6000, 7000, 6500, 7500, 8000, 9000, 7000,8000]
+	            data: [${t1}, ${t2}, ${t3}, ${t4}, ${t5}, ${t6}, ${t7}, ${t8}, ${t9}, ${t10}, ${t11}, ${t12}]
 	        },
 	        {
 	            name: '중개수수료 수익(만원)',
-	            data: [1000, 1200, 1400, 1468, 1112, 2222, 2252, 3356, 2356, 5555, 6666,5434]
+	            data: [${m1f}, ${m2f}, ${m3f}, ${m4f}, ${m5f}, ${m6f}, ${m7f}, ${m8f}, ${m9f}, ${m10f}, ${m11f}, ${m12f}]
 	        },
 	        {
 	            name: '프리미엄 등급 수익(만원)',
-	            data: [1000, 2800, 4600, 5000, 4800, 4444, 4000, 4200, 5500, 3500, 2000, 2600]
+	            data: [${m1}, ${m2}, ${m3}, ${m4}, ${m5}, ${m6}, ${m7}, ${m8}, ${m9}, ${m10}, ${m11}, ${m12}]
 	        }
 	        
 	        

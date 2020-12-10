@@ -4,6 +4,58 @@
 
 <mapper namespace="BoardMapper">
 	<!-- id는 마음대로 작성 prarameter는 실제DTO클래스 -->
+	
+	
+	<!-- 모든 일반 게시글 리스트 -->
+	<select id="normalList" resultType="BoardDTO">
+		select bbs_idx,bbs_subject,user_id,bbs_main_kategory,bbs_reg_date
+		from free_bbs
+		order by bbs_idx desc
+	</select>
+	
+	<!-- 모든 진행중 리스트 -->
+	<select id="proList" resultType="ProjectDTO">
+		select user_id,project_subject,project_middle_kategory,project_budget,project_start_date
+		from free_project
+		where project_status = 0
+		order by project_start_date desc
+	</select>
+	
+	<!-- 모든 완료된 리스트 -->
+	<select id="finishList" resultType="ProjectDTO">
+		select user_id,project_subject,project_middle_kategory,project_budget,project_start_date
+		from free_project
+		where project_status = 1
+		order by project_start_date desc
+	</select>
+	
+	<!-- 모든 일반 게시글 갯수 -->
+	<select id="bbsAllCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_bbs
+	</select>
+	
+	<!-- 월별 일반 게시글 갯수 -->
+	<select id="bbsCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_bbs
+		where to_char(bbs_reg_date,'YY/MM') = #{yearMonth}
+	</select>
+	
+	<!-- 월별 진행중 게시글 갯수 -->
+	<select id="proCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_project
+		where to_char(project_end_date,'YY/MM') = #{yearMonth} AND project_status = 0
+	</select>
+	
+	<!-- 월별 진행중 게시글 갯수 -->
+	<select id="finishCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_project
+		where to_char(project_end_date,'YY/MM') = #{yearMonth} AND project_status = 1
+	</select>
+	
 	<!-- 프리랜서 글 등록 -->
 	<insert id="freelancerWrite">
 		INSERT INTO FREE_BBS(BBS_IDX, USER_ID, BBS_MAIN_KATEGORY, BBS_MIDDLE_KATEGORY, BBS_SUBJECT, BBS_CONTENT, BBS_VIEWS, BBS_REG_DATE, BBS_UPDATE_DATE)

@@ -1,6 +1,6 @@
 package com.spring.freecloud.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class UserDTO {
 	 	private String USER_ID;		// 유저 아이디
@@ -23,6 +23,10 @@ public class UserDTO {
 	    private String USER_EDU; // 유저 학력
 	    private int IS_RESTRAINT;	// 유저 권한
 	    private String WHY_RESTRAINT; // 유저 학력
+	    private String USER_GRADE; //유저 등급
+	    private int USER_PRICE; //누적 금액
+	    private Date USER_REG_DATE; //프리미엄 등록 날짜
+	    private Date USER_CREATE_DATE; //계정 생성 날짜
 	    
 		public String getUSER_ID() {
 			return USER_ID;
@@ -133,17 +137,6 @@ public class UserDTO {
 			USER_EDU = uSER_EDU;
 		}
 		
-		@Override
-		public String toString() {
-			return "UserDTO [USER_ID=" + USER_ID + ", USER_PW=" + USER_PW + ", USER_NAME=" + USER_NAME + ", USER_EMAIL="
-					+ USER_EMAIL + ", USER_PHONE1=" + USER_PHONE1 + ", USER_PHONE2=" + USER_PHONE2 + ", USER_PHONE3="
-					+ USER_PHONE3 + ", USER_ADDRESS=" + USER_ADDRESS + ", FREELANCER_ABOUT_ME=" + FREELANCER_ABOUT_ME
-					+ ", FREELANCER_MAIN_KATEGORY=" + FREELANCER_MAIN_KATEGORY + ", FREELANCER_MIDDEL_KATEGORY="
-					+ FREELANCER_MIDDEL_KATEGORY + ", FREELANCER_SKILL=" + FREELANCER_SKILL + ", FREELANCER_CAREER="
-					+ FREELANCER_CAREER + ", FREELANCER_CERTIFICATE=" + FREELANCER_CERTIFICATE
-					+ ", FREELANCER_IMAGE_PATH=" + FREELANCER_IMAGE_PATH + ", FREELANCER_PUBLIC=" + FREELANCER_PUBLIC
-					+ ", USER_GRANT=" + USER_GRANT + ", USER_EDU=" + USER_EDU + "]";
-		}
 		public int getIS_RESTRAINT() {
 			return IS_RESTRAINT;
 		}
@@ -156,6 +149,48 @@ public class UserDTO {
 		public void setWHY_RESTRAINT(String wHY_RESTRAINT) {
 			WHY_RESTRAINT = wHY_RESTRAINT;
 		}
+		public String getUSER_GRADE() {
+			return USER_GRADE;
+		}
+		public void setUSER_GRADE(String uSER_GRADE) {
+			USER_GRADE = uSER_GRADE;
+		}
+		public int getUSER_PRICE() {
+			return USER_PRICE;
+		}
+		public void setUSER_PRICE(int uSER_PRICE) {
+			USER_PRICE = uSER_PRICE;
+		}
+		public Date getUSER_REG_DATE() {
+			return USER_REG_DATE;
+		}
+		public void setUSER_REG_DATE(Date uSER_REG_DATE) {
+			USER_REG_DATE = uSER_REG_DATE;
+		}
+		
+		public Date getUSER_CREATE_DATE() {
+			return USER_CREATE_DATE;
+		}
+		
+		public void setUSER_CREATE_DATE(Date uSER_CREATE_DATE) {
+			USER_CREATE_DATE = uSER_CREATE_DATE;
+		}
+		
+		@Override
+		public String toString() {
+			return "UserDTO [USER_ID=" + USER_ID + ", USER_PW=" + USER_PW + ", USER_NAME=" + USER_NAME + ", USER_EMAIL="
+					+ USER_EMAIL + ", USER_PHONE1=" + USER_PHONE1 + ", USER_PHONE2=" + USER_PHONE2 + ", USER_PHONE3="
+					+ USER_PHONE3 + ", USER_ADDRESS=" + USER_ADDRESS + ", FREELANCER_ABOUT_ME=" + FREELANCER_ABOUT_ME
+					+ ", FREELANCER_MAIN_KATEGORY=" + FREELANCER_MAIN_KATEGORY + ", FREELANCER_MIDDEL_KATEGORY="
+					+ FREELANCER_MIDDEL_KATEGORY + ", FREELANCER_SKILL=" + FREELANCER_SKILL + ", FREELANCER_CAREER="
+					+ FREELANCER_CAREER + ", FREELANCER_CERTIFICATE=" + FREELANCER_CERTIFICATE
+					+ ", FREELANCER_IMAGE_PATH=" + FREELANCER_IMAGE_PATH + ", FREELANCER_PUBLIC=" + FREELANCER_PUBLIC
+					+ ", USER_GRANT=" + USER_GRANT + ", USER_EDU=" + USER_EDU + ", IS_RESTRAINT=" + IS_RESTRAINT
+					+ ", WHY_RESTRAINT=" + WHY_RESTRAINT + ", USER_GRADE=" + USER_GRADE + ", USER_PRICE=" + USER_PRICE
+					+ ", USER_REG_DATE=" + USER_REG_DATE + ", USER_CREATE_DATE=" + USER_CREATE_DATE + "]";
+		}
+		
+		
 		
 	
 	    

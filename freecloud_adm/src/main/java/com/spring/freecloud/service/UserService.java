@@ -238,4 +238,41 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return dao.restraint(dto);
 	}
+
+	public int subscriptTotal(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.subscriptTotal(yearMonth);
+	}
+
+	public int total() {
+		// TODO Auto-generated method stub
+		return dao.total();
+	}
+
+	public List<UserDTO> ranked() {
+		// TODO Auto-generated method stub
+		return dao.ranked();
+	}
+
+	public int normalCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.normalCount(yearMonth);
+	}
+
+	public int freeCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.freeCount(yearMonth);
+	}
+
+	public int outCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.outCount(yearMonth);
+	}
+	
+	public int outCount() {
+		// TODO Auto-generated method stub
+		return dao.outCount();
+	}
+
+	
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.freecloud.dto.ProjectJoinDTO;
+import com.spring.freecloud.dto.BoardDTO;
 import com.spring.freecloud.dto.ProjectDTO;
 import com.spring.freecloud.dto.UserDTO;
 import com.spring.freecloud.util.PagingDTO;
@@ -146,6 +147,43 @@ public class ProjectDAO {
 	public List<ProjectDTO> projectingTotal(String yearMonth) {
 		// TODO Auto-generated method stub
 		return mybatis.selectList("BoardMapper.getProjectingTotal", yearMonth);
+	}
+
+	public int bbsCount() {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("BoardMapper.bbsAllCount");
+	}
+	
+	public int bbsCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("BoardMapper.bbsCount", yearMonth);
+	}
+
+	public int proCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("BoardMapper.proCount", yearMonth);
+	}
+
+	public int finishCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("BoardMapper.finishCount", yearMonth);
+	}
+
+	//일반 게시글 가져오기
+	public List<BoardDTO> normalList() {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("BoardMapper.normalList");
+	}
+
+	//진행중 게시글 가져오기
+	public List<ProjectDTO> proList() {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("BoardMapper.proList");
+	}
+
+	public List<ProjectDTO> finishList() {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("BoardMapper.finishList");
 	}
 
 	/*

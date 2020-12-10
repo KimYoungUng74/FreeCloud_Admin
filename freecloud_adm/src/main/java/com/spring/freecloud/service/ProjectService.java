@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.spring.freecloud.dao.ProjectDAO;
 import com.spring.freecloud.dto.ProjectJoinDTO;
+import com.spring.freecloud.dto.UserDTO;
 import com.spring.freecloud.util.PagingDTO;
+import com.spring.freecloud.dto.BoardDTO;
 import com.spring.freecloud.dto.ProjectDTO;
 
 @Service("IProjectService")
@@ -142,6 +144,43 @@ public class ProjectService {
 	public List<ProjectDTO> freelancerCount() {
 		return dao.freelancerCount();
 	}
+
+	public int bbsCount() {
+		return dao.bbsCount();
+	}
+	// 일반 게시물 갯수
+	public int bbsCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.bbsCount(yearMonth);
+	}
+
+	public int proCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.proCount(yearMonth);
+	}
+
+	public int finishCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return dao.finishCount(yearMonth);
+	}
+
+	//일반 게시글 리스트
+	public List<BoardDTO> normalList(){
+		return dao.normalList();
+	}
+
+	//진행중 게시글 리스트
+	public List<ProjectDTO> proList() {
+		// TODO Auto-generated method stub
+		return dao.proList();
+	}
+
+	public List<ProjectDTO> finishList() {
+		// TODO Auto-generated method stub
+		return dao.finishList();
+	}
+
+	
 
 	/*
 	 * // 전부 선택 public List<ProjectDTO> getAll(Map<String, Object> map) { return

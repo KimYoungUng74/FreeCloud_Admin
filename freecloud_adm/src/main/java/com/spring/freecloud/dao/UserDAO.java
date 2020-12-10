@@ -222,4 +222,39 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		return mybatis.update("UserMapper.Restraint", dto);
 	}
+
+	public int subscriptTotal(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("UserMapper.subscriptTotal", yearMonth);
+	}
+
+	public int total() {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("UserMapper.total");
+	}
+
+	public List<UserDTO> ranked() {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("UserMapper.ranked");
+	}
+
+	public int normalCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("UserMapper.normalCount",yearMonth);
+	}
+
+	public int freeCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return  mybatis.selectOne("UserMapper.freeCount",yearMonth);
+	}
+
+	public int outCount(String yearMonth) {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("UserMapper.outCount",yearMonth);
+	}
+	
+	public int outCount() {
+		// TODO Auto-generated method stub
+		return mybatis.selectOne("UserMapper.outAllCount");
+	}
 }

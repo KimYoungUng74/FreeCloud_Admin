@@ -510,18 +510,18 @@
 									<div
 										style="width: 90%; height: 90%; border: 1px solid #D3D3D3; padding: 10px;">
 										
-										<label style="font-size: 15px; color: gray;"> 2020년 11월 프리미엄 등급 구독료 관리
+										<label style="font-size: 15px; color: gray;"> 20${year }년 ${month }월 프리미엄 등급 구독료 관리
 										</label>
 										
 										<br>
-										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">전월 구독료</span>
-										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">금월 구독료</span>
-										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">차익</span>
+										<span style="display:inline-block; width:48%; font-size:25px; background-color:#CCCC">총 구독료</span>
+										<span style="display:inline-block; width:48%; font-size:25px; background-color:#CCCC">금월 구독료</span>
+										
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
-										<input type="text" style="width: 30%">
+										<input type="text" style="width: 48%; text-align: center;" value="${total }"  readonly="readonly">
+										<input type="text" style="width: 48%; text-align: center;" value="${sub_total }" readonly="readonly">
+
 										</p>
 										
 										<div class="table-responsive" id="checkout-review-table-wrapper">
@@ -530,83 +530,32 @@
 										<thead>
 											<tr>
 												<th rowspan="1">번호</th>
-												<th rowspan="1">이름</th>
+												<th rowspan="1">마지막 등록 날짜</th>
 												<th colspan="1">아이디</th>
-												<th rowspan="1">누적기간</th>
-												<th colspan="1">완료날짜</th>
+												<th rowspan="1">이름</th>
+												<th colspan="1">누적액수</th>
 											</tr>
 										</thead>
 
 										<tbody>
 
-											<tr>
-												<td><h3>45</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=45">김태경</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>3개월</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>44</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=44">김태경2</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>2개월</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>43</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=43">김태경3</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>2개월</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>42</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=42">김태경4</a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>2개월</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
-
-
-											<tr>
-												<td><h3>41</h3></td>
-												<td><h3 class="product-name">
-														<a href="boardView.do?BBS_IDX=41">김태경5 </a>
-													</h3></td>
-												<td><span class="cart-price"><span
-														class="check-price">opq</span></span></td>
-												<td>1개월</td>
-												<!-- sub total starts here -->
-												<td><span class="cart-price"><span
-														class="check-price">2020-07-08</span></span></td>
-											</tr>
+											<c:forEach var="row" items="${list }" varStatus="status">
+															<tr>
+																<td><h3>${status.count}</h3></td>
+																
+																<td style="text-align: center;">
+																	<a href="#">${row.USER_REG_DATE }</a>
+																</td>
+																
+																<td><h3 class="product-name"><a href="#">${row.USER_ID}</a></h3></td>
+																	
+																<td>${row.USER_NAME}</td>
+																
+																<td><span class="cart-price"><span
+																		class="check-price">${row.USER_PRICE }</span></span></td>
+																
+															</tr>
+												</c:forEach>
 											
 											
 										</tbody>
@@ -908,8 +857,8 @@
 		    categories: ['1월', '2월', '3월', '4월', '5월', '6월','7월', '8월', '9월', '10월', '11월', '12월'],
 		    series: [
 		        {
-		            name: '프리미엄 구독료(천만원)',
-		            data: [159, 223, 533, 235, 666, 444, 333, 352, 500, 600, 263, 400]
+		            name: '프리미엄 구독료(만원)',
+		            data: [${m1}, ${m2}, ${m3}, ${m4}, ${m5}, ${m6}, ${m7}, ${m8}, ${m9}, ${m10}, ${m11}, ${m12}]
 		        }
 		        
 		    ]
@@ -921,7 +870,7 @@
 		        title: '월별 전체 통계'
 		    },
 		    yAxis: {
-		        title: '원',
+		        title: '만원',
 		        pointOnColumn: true
 		    },
 		    xAxis: {

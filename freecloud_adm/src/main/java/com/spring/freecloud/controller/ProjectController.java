@@ -47,12 +47,17 @@ public class ProjectController {
 
 	@Autowired
 	ProjectService projectSer;
+	
 	@Autowired
 	EtcService etcSer;
+	
+	@Autowired
+	UserService userSer;
 
 	Calendar cal = Calendar.getInstance();
 	String YEAR = Integer.toString(cal.get(Calendar.YEAR) - 2000); // 현재 년도 계산
 	String MONTH = Integer.toString(cal.get(Calendar.MONTH) + 1); // 현재 월 계산
+
 
 	// 중개수수료 관리
 	@RequestMapping(value = "manageFees.do")
@@ -122,7 +127,7 @@ public class ProjectController {
 		int m12 = projectSer.projectTotal(YEAR + "/12");
 		int m12f = (int) (m12 * 0.05);
 
-		mav.addObject("m2f",m2f);
+		mav.addObject("m2f", m2f);
 		mav.addObject("m3f", m3f);
 		mav.addObject("m4f", m4f);
 		mav.addObject("m5f", m5f);
@@ -141,7 +146,103 @@ public class ProjectController {
 	@RequestMapping(value = "userStatistics.do")
 	public ModelAndView userStatic(Locale locale, Model model) {
 		ModelAndView mav = new ModelAndView();
+
+		String YearMonth = YEAR + "/" + MONTH;
+		// 일반회원
+		int nomarCount = userSer.normalCount(YearMonth);
+		mav.addObject("nc", nomarCount);
+
+		int m1 = userSer.normalCount(YEAR + "/01");
+		int m2 = userSer.normalCount(YEAR + "/02");
+		int m3 = userSer.normalCount(YEAR + "/03");
+		int m4 = userSer.normalCount(YEAR + "/04");
+		int m5 = userSer.normalCount(YEAR + "/05");
+		int m6 = userSer.normalCount(YEAR + "/06");
+		int m7 = userSer.normalCount(YEAR + "/07");
+		int m8 = userSer.normalCount(YEAR + "/08");
+		int m9 = userSer.normalCount(YEAR + "/09");
+		int m10 = userSer.normalCount(YEAR + "/10");
+		int m11 = userSer.normalCount(YEAR + "/11");
+		int m12 = userSer.normalCount(YEAR + "/12");
+
+		mav.addObject("m1", m1);
+		mav.addObject("m2", m2);
+		mav.addObject("m3", m3);
+		mav.addObject("m4", m4);
+		mav.addObject("m5", m5);
+		mav.addObject("m6", m6);
+		mav.addObject("m7", m7);
+		mav.addObject("m8", m8);
+		mav.addObject("m9", m9);
+		mav.addObject("m10", m10);
+		mav.addObject("m11", m11);
+		mav.addObject("m12", m12);
+
+		// 프리랜서
+		int freeCount = userSer.freeCount(YearMonth);
+		mav.addObject("fc", freeCount);
+
+		int n1 = userSer.freeCount(YEAR + "/01");
+		int n2 = userSer.freeCount(YEAR + "/02");
+		int n3 = userSer.freeCount(YEAR + "/03");
+		int n4 = userSer.freeCount(YEAR + "/04");
+		int n5 = userSer.freeCount(YEAR + "/05");
+		int n6 = userSer.freeCount(YEAR + "/06");
+		int n7 = userSer.freeCount(YEAR + "/07");
+		int n8 = userSer.freeCount(YEAR + "/08");
+		int n9 = userSer.freeCount(YEAR + "/09");
+		int n10 = userSer.freeCount(YEAR + "/10");
+		int n11 = userSer.freeCount(YEAR + "/11");
+		int n12 = userSer.freeCount(YEAR + "/12");
+
+		mav.addObject("n1", n1);
+		mav.addObject("n2", n2);
+		mav.addObject("n3", n3);
+		mav.addObject("n4", n4);
+		mav.addObject("n5", n5);
+		mav.addObject("n6", n6);
+		mav.addObject("n7", n7);
+		mav.addObject("n8", n8);
+		mav.addObject("n9", n9);
+		mav.addObject("n10", n10);
+		mav.addObject("n11", n11);
+		mav.addObject("n12", n12);
+
+		// 탈퇴회원
+		int outCount = userSer.outCount(YearMonth);
+		mav.addObject("oc", outCount);
+
+		int o1 = userSer.outCount(YEAR + "/01") * -1;
+		int o2 = userSer.outCount(YEAR + "/02") * -1;
+		int o3 = userSer.outCount(YEAR + "/03") * -1;
+		int o4 = userSer.outCount(YEAR + "/04") * -1;
+		int o5 = userSer.outCount(YEAR + "/05") * -1;
+		int o6 = userSer.outCount(YEAR + "/06") * -1;
+		int o7 = userSer.outCount(YEAR + "/07") * -1;
+		int o8 = userSer.outCount(YEAR + "/08") * -1;
+		int o9 = userSer.outCount(YEAR + "/09") * -1;
+		int o10 = userSer.outCount(YEAR + "/10") * -1;
+		int o11 = userSer.outCount(YEAR + "/11") * -1;
+		int o12 = userSer.outCount(YEAR + "/12") * -1;
+
+		mav.addObject("o1", o1);
+		mav.addObject("o2", o2);
+		mav.addObject("o3", o3);
+		mav.addObject("o4", o4);
+		mav.addObject("o5", o5);
+		mav.addObject("o6", o6);
+		mav.addObject("o7", o7);
+		mav.addObject("o8", o8);
+		mav.addObject("o9", o9);
+		mav.addObject("o10", o10);
+		mav.addObject("o11", o11);
+		mav.addObject("o12", o12);
+
+		mav.addObject("year", YEAR);
+		mav.addObject("month", MONTH);
+
 		mav.setViewName("admin_views/statistics/statistics_users");
+
 		mav = setTop(mav);
 		return mav;
 	}
@@ -150,6 +251,24 @@ public class ProjectController {
 	@RequestMapping(value = "projectStatistics.do")
 	public ModelAndView projectStatic(Locale locale, Model model) {
 		ModelAndView mav = new ModelAndView();
+
+		String YearMonth = YEAR + "/" + MONTH;
+
+		// 올라온 게시물 갯수
+		int bbsCount = projectSer.bbsCount(YearMonth);
+		mav.addObject("bbsCount", bbsCount);
+
+		// 진행중인 게시물 갯수
+		int proCount = projectSer.proCount(YearMonth);
+		mav.addObject("proCount", proCount);
+
+		// 완료한 게시물 갯수
+		int finishCount = projectSer.finishCount(YearMonth);
+		mav.addObject("finishCount", finishCount);
+
+		mav.addObject("year", YEAR);
+		mav.addObject("month", MONTH);
+
 		mav.setViewName("admin_views/statistics/statistics_project");
 		mav = setTop(mav);
 		return mav;
@@ -159,6 +278,126 @@ public class ProjectController {
 	@RequestMapping(value = "revenueStatistics.do")
 	public ModelAndView statistics_revenue(Locale locale, Model model) {
 		ModelAndView mav = new ModelAndView();
+
+		String YearMonth = YEAR + "/" + MONTH;
+
+		// 이번달 구독료 및 월별 구독료
+		int sub_total = (userSer.subscriptTotal(YearMonth) * 9900);
+		mav.addObject("sub_total", sub_total);
+
+		int m1 = userSer.subscriptTotal(YEAR + "/01") * 9900;
+
+		int m2 = userSer.subscriptTotal(YEAR + "/02") * 9900;
+
+		int m3 = userSer.subscriptTotal(YEAR + "/03") * 9900;
+
+		int m4 = userSer.subscriptTotal(YEAR + "/04") * 9900;
+
+		int m5 = userSer.subscriptTotal(YEAR + "/05") * 9900;
+
+		int m6 = userSer.subscriptTotal(YEAR + "/06") * 9900;
+
+		int m7 = userSer.subscriptTotal(YEAR + "/07") * 9900;
+
+		int m8 = userSer.subscriptTotal(YEAR + "/08") * 9900;
+
+		int m9 = userSer.subscriptTotal(YEAR + "/09") * 9900;
+
+		int m10 = userSer.subscriptTotal(YEAR + "/10") * 9900;
+
+		int m11 = userSer.subscriptTotal(YEAR + "/11") * 9900;
+
+		int m12 = userSer.subscriptTotal(YEAR + "/12") * 9900;
+
+		mav.addObject("m1", m1);
+		mav.addObject("m2", m2);
+		mav.addObject("m3", m3);
+		mav.addObject("m4", m4);
+		mav.addObject("m5", m5);
+		mav.addObject("m6", m6);
+		mav.addObject("m7", m7);
+		mav.addObject("m8", m8);
+		mav.addObject("m9", m9);
+		mav.addObject("m10", m10);
+		mav.addObject("m11", m11);
+		mav.addObject("m12", m12);
+
+		// 총액수 , 순이익 및 월별 중개수수료
+		int project_total = projectSer.projectTotal(YearMonth);
+		int profit = (int) (project_total * 0.05);
+		mav.addObject("profit", profit);
+
+		int n1 = projectSer.projectTotal(YEAR + "/01");
+		System.out.println(YEAR + "/01");
+		int m1f = (int) (n1 * 0.05);
+
+		System.out.println(m1 + "임");
+		mav.addObject("m1f", m1f);
+
+		int n2 = projectSer.projectTotal(YEAR + "/02");
+		int m2f = (int) (n2 * 0.05);
+
+		int n3 = projectSer.projectTotal(YEAR + "/03");
+		int m3f = (int) (n3 * 0.05);
+
+		int n4 = projectSer.projectTotal(YEAR + "/04");
+		int m4f = (int) (n4 * 0.05);
+
+		int n5 = projectSer.projectTotal(YEAR + "/05");
+		int m5f = (int) (n5 * 0.05);
+
+		int n6 = projectSer.projectTotal(YEAR + "/06");
+		int m6f = (int) (n6 * 0.05);
+
+		int n7 = projectSer.projectTotal(YEAR + "/07");
+		int m7f = (int) (n7 * 0.05);
+
+		int n8 = projectSer.projectTotal(YEAR + "/08");
+		int m8f = (int) (n8 * 0.05);
+
+		int n9 = projectSer.projectTotal(YEAR + "/09");
+		int m9f = (int) (n9 * 0.05);
+
+		int n10 = projectSer.projectTotal(YEAR + "/10");
+		int m10f = (int) (n10 * 0.05);
+
+		int n11 = projectSer.projectTotal(YEAR + "/11");
+		int m11f = (int) (n11 * 0.05);
+
+		int n12 = projectSer.projectTotal(YEAR + "/12");
+		int m12f = (int) (n12 * 0.05);
+
+		mav.addObject("m2f", m2f);
+		mav.addObject("m3f", m3f);
+		mav.addObject("m4f", m4f);
+		mav.addObject("m5f", m5f);
+		mav.addObject("m6f", m6f);
+		mav.addObject("m7f", m7f);
+		mav.addObject("m8f", m8f);
+		mav.addObject("m9f", m9f);
+		mav.addObject("m10f", m10f);
+		mav.addObject("m11f", m11f);
+		mav.addObject("m12f", m12f);
+
+		// 총합
+		int total = sub_total + profit;
+		mav.addObject("total", total);
+
+		mav.addObject("t1", m1f + m1);
+		mav.addObject("t2", m2f + m2);
+		mav.addObject("t3", m3f + m3);
+		mav.addObject("t4", m4f + m4);
+		mav.addObject("t5", m5f + m5);
+		mav.addObject("t6", m6f + m6);
+		mav.addObject("t7", m7f + m7);
+		mav.addObject("t8", m8f + m8);
+		mav.addObject("t9", m9f + m9);
+		mav.addObject("t10", m10f + m10);
+		mav.addObject("t11", m11f + m11);
+		mav.addObject("t12", m12f + m12);
+
+		mav.addObject("year", YEAR);
+		mav.addObject("month", MONTH);
 		mav.setViewName("admin_views/statistics/statistics_revenue");
 		mav = setTop(mav);
 		return mav;
@@ -169,7 +408,62 @@ public class ProjectController {
 	public ModelAndView manage_subscription_fee(Locale locale, Model model) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin_views/fee/manage_subscription_fee");
+
+		String YearMonth = YEAR + "/" + MONTH;
+
+		// 총 구독료
+		int total = userSer.total();
+		// 이번달 구독료
+		int sub_total = (userSer.subscriptTotal(YearMonth) * 9900);
+
+		// 상위 5명
+		List<UserDTO> list = null;
+		list = userSer.ranked();
+
+		mav.addObject("year", YEAR);
+		mav.addObject("month", MONTH);
+		mav.addObject("total", total);
+		mav.addObject("sub_total", sub_total);
+		mav.addObject("list", list);
 		mav = setTop(mav);
+
+		int m1 = userSer.subscriptTotal(YEAR + "/01") * 9900;
+
+		int m2 = userSer.subscriptTotal(YEAR + "/02") * 9900;
+
+		int m3 = userSer.subscriptTotal(YEAR + "/03") * 9900;
+
+		int m4 = userSer.subscriptTotal(YEAR + "/04") * 9900;
+
+		int m5 = userSer.subscriptTotal(YEAR + "/05") * 9900;
+
+		int m6 = userSer.subscriptTotal(YEAR + "/06") * 9900;
+
+		int m7 = userSer.subscriptTotal(YEAR + "/07") * 9900;
+
+		int m8 = userSer.subscriptTotal(YEAR + "/08") * 9900;
+
+		int m9 = userSer.subscriptTotal(YEAR + "/09") * 9900;
+
+		int m10 = userSer.subscriptTotal(YEAR + "/10") * 9900;
+
+		int m11 = userSer.subscriptTotal(YEAR + "/11") * 9900;
+
+		int m12 = userSer.subscriptTotal(YEAR + "/12") * 9900;
+
+		mav.addObject("m1", m1);
+		mav.addObject("m2", m2);
+		mav.addObject("m3", m3);
+		mav.addObject("m4", m4);
+		mav.addObject("m5", m5);
+		mav.addObject("m6", m6);
+		mav.addObject("m7", m7);
+		mav.addObject("m8", m8);
+		mav.addObject("m9", m9);
+		mav.addObject("m10", m10);
+		mav.addObject("m11", m11);
+		mav.addObject("m12", m12);
+
 		return mav;
 	}
 
@@ -645,12 +939,16 @@ public class ProjectController {
 		int regFree = 0;
 		int edPrice = 0;
 		int allUser = 0;
+		int bbsCount = 0;
+		int outCount = 0;
 
-		regProject = etcSer.ProjectCount();
+		outCount = userSer.outCount();
+		bbsCount = projectSer.bbsCount();
+		regProject = etcSer.ProjectCount() + bbsCount;
 		regFree = etcSer.RegFreeCount();
 		edPrice = etcSer.EdPrice();
-		allUser = etcSer.AllUser();
-		System.out.println("완료한 금액 : " + regFree);
+		allUser = etcSer.AllUser() - outCount;
+		System.out.println("탈퇴한 회원수: " + outCount);
 
 		mav.addObject("regProject", regProject);
 		mav.addObject("regFree", regFree);

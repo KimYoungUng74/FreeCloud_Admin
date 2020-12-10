@@ -509,7 +509,7 @@
 									<div
 										style="width: 90%; height: 90%; border: 1px solid #D3D3D3; padding: 10px;">
 										
-										<label style="font-size: 15px; color: gray;"> 2020년 11월 프로젝트 통계
+										<label style="font-size: 15px; color: gray;"> 20${year }년 ${month }월 프로젝트 통계
 										</label>
 										
 										<br>
@@ -518,9 +518,9 @@
 										<span style="display:inline-block; width:30%; font-size:25px; background-color:#CCCC">완료된 프로젝트</span>
 										
 										<p style="font-size: 21px;">
-										<input type="text" style="width: 30%; text-align: center;" value="100개">
-										<input type="text" style="width: 30%; text-align: center;" value="80개">
-										<input type="text" style="width: 30%; text-align: center;" value="20개">
+										<input type="text" style="width: 30%; text-align: center;" value="${bbsCount } 개">
+										<input type="text" style="width: 30%; text-align: center;" value="${proCount } 개">
+										<input type="text" style="width: 30%; text-align: center;" value="${finishCount }개">
 										</p>
 										
 										

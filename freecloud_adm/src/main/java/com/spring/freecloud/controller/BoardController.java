@@ -43,7 +43,38 @@ public class BoardController {
 	BoardService boardSer;
 	@Autowired
 	EtcService etcSer;
-	
+	@Autowired
+	ProjectService projectSer;
+
+	// 게시판 관리
+	@RequestMapping(value = "boardList.do")
+	public ModelAndView search(Locale locale, Model model, String search) {
+
+		// 일반 게시물 리스트
+		List<BoardDTO> normalList = null;
+		normalList = projectSer.normalList();
+
+		// 진행중 게시물 리스트
+		List<ProjectDTO> proList = null;
+		proList = projectSer.proList();
+		
+
+		// 완료된 게시물 리스트
+		List<ProjectDTO> finishList = null;
+		finishList = projectSer.finishList();
+		
+		
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("normalList", normalList);
+		mav.addObject("proList", proList);
+		mav.addObject("finishList", finishList);
+
+		mav = setTop(mav);
+		mav.setViewName("admin_views/board/manage_board");
+
+		return mav;
+	}
 
 	// 게시글 등록 화면
 	@RequestMapping(value = "boardReg.do")
@@ -74,52 +105,14 @@ public class BoardController {
 		return mav;
 	}
 
-	// 게시글 리스트 조회 ( 페이징 )
-	@RequestMapping(value = "boardList.do")
-	public ModelAndView boardList(PagingDTO dto, Model model,
-
-			@RequestParam(value = "nowPage", required = false) String nowPage,
-
-			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
-
-	) {
-
-		System.out.println("게시판 목록 보여주기 시작");
-
-		int total = boardSer.countBoard();
-
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "5";
-
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "5";
-		}
-
-		dto = new PagingDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-
-		List<BoardDTO> list = boardSer.selectProject(dto);
-
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(i + "번째 값 : " + list.get(i));
-		}
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin_views/board/manage_board");
-		mav.addObject("paging", dto);
-		mav.addObject("viewAll", list);
-		mav = setTop(mav);
-		return mav;
-	}
+	
 
 	// 게시글 상세 조회
 	@RequestMapping(value = "boardView.do")
 	public ModelAndView view(@RequestParam int BBS_IDX, HttpSession session) {
 
 		System.out.println("게시글 상세보기 시작 // 넘어온 게시글 번호 " + BBS_IDX);
-		//boardSer.increaseView(BBS_IDX, session);
+		// boardSer.increaseView(BBS_IDX, session);
 
 		ModelAndView mav = new ModelAndView();
 
@@ -129,8 +122,8 @@ public class BoardController {
 		mav = setTop(mav);
 		return mav;
 	}
-	
-	//게시글 수정
+
+	// 게시글 수정
 	@RequestMapping(value = "boardUpdateOk.do")
 	public String update(Locale local, BoardDTO dto, HttpServletRequest request, HttpSession session) {
 
@@ -140,38 +133,37 @@ public class BoardController {
 		String USER_ID = (String) session.getAttribute("userId");
 		dto.setUSER_ID(USER_ID);
 		dto.setBBS_IDX(BBS_IDX);
-		
+
 		System.out.println("번호 : " + dto.getBBS_IDX());
 		System.out.println("아이디 : " + dto.getUSER_ID());
 		System.out.println("분류 " + dto.getBBS_MAIN_KATEGORY());
 
-		
-		  boardSer.projectUpdate(dto);
-		  
-		  System.out.println("수정 완료");
+		boardSer.projectUpdate(dto);
 
-		return "redirect:boardView.do?BBS_IDX="+BBS_IDX;
+		System.out.println("수정 완료");
+
+		return "redirect:boardView.do?BBS_IDX=" + BBS_IDX;
 	}
-	
-	 // 상단 배너
- 	ModelAndView setTop(ModelAndView mav) {
- 		int regProject = 0;
- 		int regFree = 0;
- 		int edPrice = 0;
- 		int allUser = 0;
 
- 		regProject = etcSer.ProjectCount();
- 		regFree = etcSer.RegFreeCount();
- 		edPrice = etcSer.EdPrice();
- 		allUser = etcSer.AllUser();
- 		System.out.println("완료한 금액 : " + regFree);
+	// 상단 배너
+	ModelAndView setTop(ModelAndView mav) {
+		int regProject = 0;
+		int regFree = 0;
+		int edPrice = 0;
+		int allUser = 0;
 
- 		mav.addObject("regProject", regProject);
- 		mav.addObject("regFree", regFree);
- 		mav.addObject("edPrice", edPrice);
- 		mav.addObject("allUser", allUser);
- 		return mav;
- 	}
+		regProject = etcSer.ProjectCount();
+		regFree = etcSer.RegFreeCount();
+		edPrice = etcSer.EdPrice();
+		allUser = etcSer.AllUser();
+		System.out.println("완료한 금액 : " + regFree);
+
+		mav.addObject("regProject", regProject);
+		mav.addObject("regFree", regFree);
+		mav.addObject("edPrice", edPrice);
+		mav.addObject("allUser", allUser);
+		return mav;
+	}
 
 	/*
 	 * // 프로젝트 게시글 리스트 조회 화면

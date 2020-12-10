@@ -3,6 +3,7 @@ package com.spring.freecloud.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +54,11 @@ public class UserController {
 	@Resource(name = "uploadPath")
 	String uploadPath;
 
+	Calendar cal = Calendar.getInstance();
+	String YEAR = Integer.toString(cal.get(Calendar.YEAR) - 2000); // 현재 년도 계산
+	String MONTH = Integer.toString(cal.get(Calendar.MONTH) + 1); // 현재 월 계산
+	
+
 	// 회원가입 화면
 	@RequestMapping(value = "signup.do")
 	public ModelAndView signup(Locale locale, Model model) {
@@ -61,6 +67,7 @@ public class UserController {
 		mav.setViewName("signup");
 		return mav;
 	}
+
 	// 회원 가입 처리
 	@RequestMapping(value = "signupOk.do", method = RequestMethod.POST)
 	public ModelAndView signupOk(Locale locale, UserDTO dto) {
@@ -78,7 +85,7 @@ public class UserController {
 
 	// 아이디 중복 체크
 	@RequestMapping(value = "/checkId", method = RequestMethod.POST)
-	public @ResponseBody String AjaxView(@RequestParam("id") String id) throws Exception{
+	public @ResponseBody String AjaxView(@RequestParam("id") String id) throws Exception {
 		System.out.println("넘어가세요");
 		String str = "";
 		boolean idcheck = userSer.checkId(id);
@@ -197,14 +204,14 @@ public class UserController {
 	@RequestMapping(value = "myProject.do", produces = "application/text; charset=utf8")
 	public ModelAndView myProject(Locale locale, HttpSession sessison) {
 		System.out.println("myProject에 접근함");
-		
+
 		List<ProjectDTO> ingList = null; // 진행중인 프로젝트
 		List<ProjectDTO> edList = null; // 완료한 프로젝트
-		String userId =sessison.getAttribute("userId").toString();	// 유저 아이디
+		String userId = sessison.getAttribute("userId").toString(); // 유저 아이디
 		String myprofile = userSer.myProfile(userId); // 프로필 사진 가져오기
 		ingList = userSer.ingMyProject(userId); // 진행중인 프로젝트 - 의뢰
-		edList = userSer.edMyProject(userId);  // 완료한 프로젝트 - 의뢰
-		
+		edList = userSer.edMyProject(userId); // 완료한 프로젝트 - 의뢰
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("ingList", ingList);
 		mav.addObject("edList", edList);
@@ -223,14 +230,14 @@ public class UserController {
 		List<ProjectDTO> requestedList = null; // 지원 요청 된 프로젝트
 		List<ProjectDTO> requestList = null; // 지원한 프로젝트
 		List<ProjectDTO> edList = null; // 완료한 프로젝트
-		
-		String userId =sessison.getAttribute("userId").toString();	// 유저 아이디
+
+		String userId = sessison.getAttribute("userId").toString(); // 유저 아이디
 		String myprofile = userSer.myProfile(userId); // 프로필 사진 가져오기
 		ingList = userSer.rIngMyProject(userId); // 진행중인 프로젝트 - 지원
-		requestedList = userSer.requestedProject(userId);  // 완료한 프로젝트 - 의뢰
+		requestedList = userSer.requestedProject(userId); // 완료한 프로젝트 - 의뢰
 		requestList = userSer.requestProject(userId); // 진행중인 프로젝트 - 의뢰
-		edList = userSer.rEdMyProject(userId);  // 완료한 프로젝트 - 지원
-		
+		edList = userSer.rEdMyProject(userId); // 완료한 프로젝트 - 지원
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("ingList", ingList);
 		mav.addObject("requestedList", requestedList);
@@ -273,7 +280,7 @@ public class UserController {
 	// 회원정보 수정
 	@RequestMapping(value = "myInfoModify.do", method = RequestMethod.POST)
 	public ModelAndView myInfoModify(Locale locale, UserDTO dto) {
-		if(dto.getUSER_PW().equals("")) {
+		if (dto.getUSER_PW().equals("")) {
 			if (1 == userSer.userModify(dto)) {
 				System.out.println("회원정보 수정 되었음");
 			} else {
@@ -376,7 +383,7 @@ public class UserController {
 		// 파일명 랜덤생성 메서드호출
 		String savedName = uploadFile(originalName, portfolio.getBytes(), dirname);
 		userSer.addPortfolio(originalName, savedName, sessison.getAttribute("userId").toString());
-		
+
 		return savedName;
 
 	}
@@ -409,27 +416,27 @@ public class UserController {
 		FileCopyUtils.copy(fileData, target);
 		return savedName;
 	}
-	
-	 // 디렉토리 생성
-    private static void makeDir(String uploadPath, String... paths) {
-        // 디렉토리가 존재하면
-        if (new File(paths[paths.length - 1]).exists()){
-            return;
-        }
-        // 디렉토리가 존재하지 않으면
-        for (String path : paths) {
-            // 
-            File dirPath = new File(uploadPath + path);
-            // 디렉토리가 존재하지 않으면
-            if (!dirPath.exists()) {
-                dirPath.mkdir(); //디렉토리 생성
-            }
-        }
-    }  
-    
-    // 프리랜서 목록 리스트 조회 화면
-  	@RequestMapping(value = "freelancerSearch.do")
-  	public ModelAndView list(PagingDTO dto, Model model,
+
+	// 디렉토리 생성
+	private static void makeDir(String uploadPath, String... paths) {
+		// 디렉토리가 존재하면
+		if (new File(paths[paths.length - 1]).exists()) {
+			return;
+		}
+		// 디렉토리가 존재하지 않으면
+		for (String path : paths) {
+			//
+			File dirPath = new File(uploadPath + path);
+			// 디렉토리가 존재하지 않으면
+			if (!dirPath.exists()) {
+				dirPath.mkdir(); // 디렉토리 생성
+			}
+		}
+	}
+
+	// 프리랜서 목록 리스트 조회 화면
+	@RequestMapping(value = "freelancerSearch.do")
+	public ModelAndView list(PagingDTO dto, Model model,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
 			@RequestParam(value = "wk", required = false) String wk) {
@@ -461,63 +468,65 @@ public class UserController {
 		mav.addObject("viewAll", list);
 		mav = setTop(mav);
 		return mav;
-  	}
-  	
- // 프리랜서 상세 페이지
- 	@RequestMapping(value = "freelancerPage.do", produces = "application/text; charset=utf8")
- 	public ModelAndView freelancerPage(Locale locale, @RequestParam("userId") String userId, HttpSession sessison) {
- 		System.out.println("freelancerPage에 접근함");
- 		
- 		List<ProjectDTO> ingList = null; // 진행중인 프로젝트
- 		
- 		ingList = userSer.ingMyProject(sessison.getAttribute("userId").toString()); // 진행중인 프로젝트 - 의뢰
- 		UserDTO dto = new UserDTO();
- 		dto = userSer.myInfo(userId);
- 		ModelAndView mav = new ModelAndView();
- 		mav.addObject("dto", dto);
- 		mav.addObject("ingList", ingList);
- 		mav.setViewName("freelancerPage");
- 		mav = setTop(mav);
- 		return mav;
- 	}
- 	 // 프로젝트 지원요청
- 	@RequestMapping(value = "RequestProject.do", produces = "application/text; charset=utf8")
- 	public ModelAndView RequestProject(Locale locale, @RequestParam("PROJECT_SUBJECT") String PROJECT_SUBJECT, @RequestParam("PROJECT_IDX") String PROJECT_IDX, @RequestParam("userId") String userId, HttpSession sessison) {
- 		System.out.println("RequestProject에 접근함");
- 		 		
- 		etcSer.RequestProject(PROJECT_IDX, PROJECT_SUBJECT, userId, sessison.getAttribute("userId").toString());
- 		UserDTO dto = new UserDTO();
- 		dto = userSer.myInfo(userId);
- 		ModelAndView mav = new ModelAndView();
- 		mav.addObject("dto", dto);
- 		mav.addObject("msg", "ok");
- 		mav.setViewName("freelancerPage");
- 		mav = setTop(mav);
- 		return mav;
- 	}
- 	
+	}
 
- // 상단 배너
- 	ModelAndView setTop(ModelAndView mav) {
- 		int regProject = 0;
- 		int regFree = 0;
- 		int edPrice = 0;
- 		int allUser = 0;
+	// 프리랜서 상세 페이지
+	@RequestMapping(value = "freelancerPage.do", produces = "application/text; charset=utf8")
+	public ModelAndView freelancerPage(Locale locale, @RequestParam("userId") String userId, HttpSession sessison) {
+		System.out.println("freelancerPage에 접근함");
 
- 		regProject = etcSer.ProjectCount();
- 		regFree = etcSer.RegFreeCount();
- 		edPrice = etcSer.EdPrice();
- 		allUser = etcSer.AllUser();
- 		System.out.println("완료한 금액 : " + regFree);
+		List<ProjectDTO> ingList = null; // 진행중인 프로젝트
 
- 		mav.addObject("regProject", regProject);
- 		mav.addObject("regFree", regFree);
- 		mav.addObject("edPrice", edPrice);
- 		mav.addObject("allUser", allUser);
- 		return mav;
- 	}
- 	
- 	ModelAndView sethome(ModelAndView mav) {
+		ingList = userSer.ingMyProject(sessison.getAttribute("userId").toString()); // 진행중인 프로젝트 - 의뢰
+		UserDTO dto = new UserDTO();
+		dto = userSer.myInfo(userId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("dto", dto);
+		mav.addObject("ingList", ingList);
+		mav.setViewName("freelancerPage");
+		mav = setTop(mav);
+		return mav;
+	}
+
+	// 프로젝트 지원요청
+	@RequestMapping(value = "RequestProject.do", produces = "application/text; charset=utf8")
+	public ModelAndView RequestProject(Locale locale, @RequestParam("PROJECT_SUBJECT") String PROJECT_SUBJECT,
+			@RequestParam("PROJECT_IDX") String PROJECT_IDX, @RequestParam("userId") String userId,
+			HttpSession sessison) {
+		System.out.println("RequestProject에 접근함");
+
+		etcSer.RequestProject(PROJECT_IDX, PROJECT_SUBJECT, userId, sessison.getAttribute("userId").toString());
+		UserDTO dto = new UserDTO();
+		dto = userSer.myInfo(userId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("dto", dto);
+		mav.addObject("msg", "ok");
+		mav.setViewName("freelancerPage");
+		mav = setTop(mav);
+		return mav;
+	}
+
+	// 상단 배너
+	ModelAndView setTop(ModelAndView mav) {
+		int regProject = 0;
+		int regFree = 0;
+		int edPrice = 0;
+		int allUser = 0;
+
+		regProject = etcSer.ProjectCount();
+		regFree = etcSer.RegFreeCount();
+		edPrice = etcSer.EdPrice();
+		allUser = etcSer.AllUser();
+		System.out.println("완료한 금액 : " + regFree);
+
+		mav.addObject("regProject", regProject);
+		mav.addObject("regFree", regFree);
+		mav.addObject("edPrice", edPrice);
+		mav.addObject("allUser", allUser);
+		return mav;
+	}
+
+	ModelAndView sethome(ModelAndView mav) {
 		mav = setTop(mav);
 		// 진행중인 프로젝트
 		List<ProjectViewDTO> list1 = null;
@@ -565,8 +574,7 @@ public class UserController {
 
 		mav.setViewName("home");
 		return mav;
-		
-		
+
 	}
-	
+
 }

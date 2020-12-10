@@ -11,6 +11,58 @@
 		#{USER_PHONE1}, #{USER_PHONE2}, #{USER_PHONE3}, #{USER_ADDRESS}, 0, 0)
 	</insert>
 	
+	<!-- 일반 월별 회원 수 -->
+	<select id="normalCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_user
+		where to_char(user_create_date,'YY/MM') = #{yearMonth} AND user_grant = 0 AND freelancer_public = 0
+	</select>
+	
+	<!-- 프리랜서 회원 수 -->
+	<select id="freeCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_user
+		where to_char(user_create_date,'YY/MM') = #{yearMonth} AND user_grant = 0 AND freelancer_public = 1
+	</select>
+	
+	<!-- 탈퇴한 회원 수  -->
+	<select id="outCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_user
+		where to_char(user_create_date,'YY/MM') = #{yearMonth} AND user_grant = 3
+	</select>
+	
+	<!-- 탈퇴한 회원 수(전부)  -->
+	<select id="outAllCount" parameterType="String" resultType="int">
+		select count(*)
+		from free_user
+		where user_grant = 3
+	</select>
+	
+	<!-- 이번달 구독료 subscriptTotal -->
+	<select id="subscriptTotal" parameterType="String" resultType="int">
+		select count(*)
+		from free_user
+		where to_char(user_reg_date,'YY/MM') = #{yearMonth}
+	</select>
+	
+	<!-- 구독료 총액 -->
+	<select id="total" resultType="int">
+		select sum(USER_PRICE)
+		from free_user
+		
+	</select>
+	
+	<!-- 구독료 상위 5명 불러오기 -->
+	<select id="ranked" resultType="UserDTO">
+		<![CDATA[
+			select user_reg_date, user_id,user_name , user_price
+			from free_user
+			where ROWNUM <= 5
+			order by user_price desc
+		]]>
+	</select>
+	
 	<!-- 아이디 중복체크 -->
 	<select id="idCheck" parameterType="UserDTO"
 		resultType="String">
